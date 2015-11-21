@@ -16,6 +16,26 @@ module VagrantPlugins
             This plugin installs a provider that allows Vagrant to manage
             virtual machines using Rimuhosting's API.
             DESC
+
+            config(:rimu, :provider) do
+                require_relative "config"
+                Config
+            end
+
+            provider(:digital_ocean) do
+                require_relative "provider"
+                Provider
+            end
+
+            command(:rimu) do
+                require_relative "commands/root"
+                Commands::Root
+            end
+
+            command(:rebuild) do
+                require_relative "commands/rebuild"
+                Commands::Rebuild
+            end
         end
     end
 end

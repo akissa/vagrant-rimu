@@ -1,7 +1,6 @@
 module VagrantPlugins
     module Rimu
-        module Action
-
+        class Provider < Vagrant.plugin('2', :provider)
         end
     end
 end
