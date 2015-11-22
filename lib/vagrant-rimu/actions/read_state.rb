@@ -1,3 +1,5 @@
+require 'log4r'
+
 module VagrantPlugins
   module Rimu
     module Actions
@@ -5,26 +7,27 @@ module VagrantPlugins
         def initialize(app, env)
           @app = app
           @machine = env[:machine]
+          @client = env[:rimu_api]
           @logger = Log4r::Logger.new('vagrant_rimu::action::read_state')
         end
 
         def call(env)
-          env[:machine_state] = read_state(@machine)
+          env[:machine_state] = read_state(@client, @machine)
           @logger.info "Machine state is '#{env[:machine_state]}'"
           @app.call(env)
         end
 
-        def read_state(machine)
+        def read_state(client, machine)
           return :not_created if machine.id.nil?
-          rimu_server = Provider.rimu_server(machine)
-          return :not_created if rimu_server.nil?
-          status = rimu_server.running_state
+          server = client.servers.status(machine.id)
+          return :not_created if server.nil?
+          status = server.running_state
           return :not_created if status.nil?
           states = {
-            "RUNNING" => :active,
-            "NOTRUNNING" => :off,
-            "RESTARTING" => :shutting_down,
-            "POWERCYCLING" => :shutting_down,
+            'RUNNING' => :active,
+            'NOTRUNNING' => :off,
+            'RESTARTING' => :shutting_down,
+            'POWERCYCLING' => :shutting_down,
           }
           states[status.to_s]
         end
