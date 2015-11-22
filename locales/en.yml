@@ -1,0 +1,77 @@
+en:
+    vagrant_rimu:
+        off: |-
+            VPS is off
+        creating: |-
+            Creating a new VPS...
+        ready: |-
+            Machine is booted and ready for use!
+        not_created: |-
+            The VPS is not created. Please run `vagrant up` first.
+        already_status: |-
+            The VPS is already %{status}.
+        starting: |-
+            Starting the VPS...
+        stopping: |-
+            Stopping the VPS...
+        terminating: |-
+            Terminating the VPS...
+        waiting_for_ready: |-
+            Waiting for VPS to become "ready"...
+        will_not_destroy: |-
+            The VPS '%{name}' will not be destroyed, since the confirmation
+            was declined.
+        ip_address: |-
+            Assigned IP address: %{ip}
+        creating_user: "Creating user account: %{user}..."
+        modifying_sudo: "Modifying sudoers file to remove tty requirement..."
+        reloading: "Rebooting the VPS..."
+        config:
+            api_key: "The RIMU API Key option: [api_key] is required"
+            host_name: "The Host name option: [host_name] is required"
+            invalid_host_name: |-
+                Host name: %{host_name} is not a fully qualified domain name (FQDN)
+            private_key: "A valid SSH private key path option: [private_key_path] is required"
+            public_key: "SSH public key not found: %{key}"
+        errors:
+            api_error: |-
+                The API request failed. Please inspect the error message
+                below for more info.
+
+                Error: %{stderr}
+            public_key: |-
+                There was an issue reading the public key at:
+
+                Path: %{path}
+
+                Please check the file's permissions.
+            rsync: |-
+                There was an error when attemping to rsync a share folder.
+                Please inspect the error message below for more info.
+
+                Host path: %{hostpath}
+                Guest path: %{guestpath}
+                Error: %{stderr}
+        states:
+          short_not_created: |-
+            not created
+          long_not_created: |-
+            The VPS is not created. Run `vagrant up` to create it.
+          short_starting: |-
+            starting
+          long_starting: |-
+            The VPS is starting.
+          short_stopped: |-
+            stopped
+          long_stopped: |-
+            The VPS is stopped. Run `vagrant up` to start it.
+          short_stopping: |-
+            stopping
+          long_stopping: |-
+            The VPS is stopping. Wait until is completely stopped to
+            run `vagrant up` and start it.
+          short_running: |-
+            running
+          long_running: |-
+            The VPS is running. To stop this machine, you can run
+            `vagrant halt`. To destroy the machine, you can run `vagrant destroy`.
