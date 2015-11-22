@@ -7,21 +7,6 @@ module VagrantPlugins
     module Actions
       include Vagrant::Action::Builtin
 
-      # This action is called to halt the remote machine.
-      # def self.action_halt
-      #   Vagrant::Action::Builder.new.tap do |b|
-      #     b.use ConfigValidate
-      #     b.use Call, IsCreated do |env, b2|
-      #       if !env[:result]
-      #         b2.use MessageNotCreated
-      #         next
-      #       end
-      #       b2.use ConnectToRimu
-      #       b2.use StopInstance
-      #     end
-      #   end
-      # end
-
       # This action is called to terminate the remote machine.
       def self.action_destroy
         Vagrant::Action::Builder.new.tap do |b|
@@ -42,22 +27,6 @@ module VagrantPlugins
           end
         end
       end
-
-      # This action is called when `vagrant provision` is called.
-      # def self.action_provision
-      #   Vagrant::Action::Builder.new.tap do |b|
-      #     b.use ConfigValidate
-      #     b.use Call, IsCreated do |env, b2|
-      #       if !env[:result]
-      #         b2.use MessageNotCreated
-      #         next
-      #       end
-      #
-      #       b2.use Provision
-      #       b2.use SyncedFolders
-      #     end
-      #   end
-      # end
 
       # This action is called to read the SSH info of the machine. The
       # resulting state is expected to be put into the `:machine_ssh_info`
@@ -109,38 +78,6 @@ module VagrantPlugins
           end
         end
       end
-
-      # def self.action_prepare_boot
-      #   Vagrant::Action::Builder.new.tap do |b|
-      #     b.use Provision
-      #     b.use SyncedFolders
-      #   end
-      # end
-      #
-      # # This action is called to bring the box up from nothing.
-      # def self.action_up
-      #   Vagrant::Action::Builder.new.tap do |b|
-      #     b.use ConfigValidate
-      #     b.use ConnectToRimu
-      #     b.use Call, IsCreated do |env1, b1|
-      #       if env1[:result]
-      #         b1.use Call, IsStopped do |env2, b2|
-      #           if env2[:result]
-      #             b2.use action_prepare_boot
-      #             b2.use StartInstance
-      #           else
-      #             b2.use MessageAlreadyCreated
-      #           end
-      #         end
-      #       else
-      #         b1.use action_prepare_boot
-      #         b1.use Create
-      #         b1.use SetupSudo
-      #         b1.use SetupUser
-      #       end
-      #     end
-      #   end
-      # end
 
       # This action is called when `vagrant provision` is called.
       def self.action_provision

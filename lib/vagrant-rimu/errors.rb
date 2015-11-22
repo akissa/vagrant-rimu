@@ -5,16 +5,16 @@ module VagrantPlugins
         error_namespace("vagrant_rimu.errors")
       end
 
-      class JSONError < RimuError
-        error_key(:json)
-      end
-
       class PublicKeyError < RimuError
         error_key(:public_key)
       end
 
       class RsyncError < RimuError
         error_key(:rsync)
+      end
+
+      class ApiError < RimuError
+        error_key(:api_error)
       end
     end
   end
