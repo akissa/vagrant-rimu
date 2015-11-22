@@ -16,6 +16,7 @@ Gem::Specification.new do |gem|
   gem.require_paths = ['lib']
   gem.version       = VagrantPlugins::Rimu::VERSION
 
+  gem.add_runtime_dependency "rimu", "~> 0.0.3"
   gem.add_development_dependency "bundler", "~> 1.5"
   gem.add_development_dependency "rspec-core", "~> 2.12.2"
   gem.add_development_dependency "rspec-mocks", "~> 2.12.1"
