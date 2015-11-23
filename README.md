@@ -34,7 +34,7 @@ Vagrant.configure('2') do |config|
 
     provider.api_key = 'YOUR RIMU API KEY'
     provider.host_name = 'rimu.example.com'
-    # provider.distro_code = 'centos6-64'
+    # provider.distro_code = 'centos6.64'
     # provider.data_centre = 'DCDALLAS'
     # provider.memory_mb = 1024
     # provider.disk_space_mb = 40000
