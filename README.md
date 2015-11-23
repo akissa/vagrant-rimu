@@ -57,7 +57,7 @@ end
 **Configuration Requirements**
 - You *must* specify the `override.ssh.private_key_path` option to enable
   authentication.
-- You *must* specify your Rim API Key. This can be found/generated in the RIMU
+- You *must* specify your Rimu API Key. This can be found/generated in the RIMU
   [control panel](https://rimuhosting.com/cp/apikeys.jsp).
 - You *must* specify the `provider.host_name` option, and it should be a
   fully qualified domain name (FQDN).
@@ -82,7 +82,7 @@ The provider supports the following Vagrant sub-commands:
 - `vagrant halt` - Powers off the Rimu VPS.
 - `vagrant reload` - Reboots the Rimu VPS.
 - `vagrant provision` - Runs the configured provisioners and rsyncs any
-  specified `config.vm.synced_folder`.
+  specified `config.vm.synced_folder` folders.
 - `vagrant status` - Outputs the status (active, off, not created) for the
   Rimu VPS.
 - `vagrant ssh` - Logs into the Rimu VPS using the configured user account.
