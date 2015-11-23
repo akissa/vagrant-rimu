@@ -1,0 +1,30 @@
+Vagrant.require_plugin('vagrant-rimu')
+
+Vagrant.configure('2') do |config|
+  config.ssh.username = 'tester'
+  config.ssh.private_key_path = 'test_rimu_id_rsa'
+
+  config.vm.synced_folder '.', '/vagrant', :disabled => true
+
+  config.vm.provider :rimu do |provider, override|
+    provider.token = ENV['RIMU_API_KEY']
+  end
+
+  config.vm.provision :shell, :path => 'scripts/provision.sh'
+
+  config.vm.define :debian do |debian|
+    debian.vm.provider :rimu do |provider|
+      provider.distro_code = 'jessie.64'
+      provider.disk_space_mb = 5000
+      provider.host_name = 'vagrant-test-debian-rimu.example.com'
+    end
+  end
+
+  config.vm.define :centos do |centos|
+    centos.vm.provider :rimu do |provider|
+      provider.distro_code = 'centos6.64'
+      provider.disk_space_mb = 5000
+      provider.host_name = 'vagrant-test-centos-rimu.example.com'
+    end
+  end
+end
