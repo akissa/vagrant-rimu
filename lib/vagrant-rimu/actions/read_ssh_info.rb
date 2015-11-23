@@ -23,7 +23,7 @@ module VagrantPlugins
           return nil if machine.id.nil?
 
           # Find the machine
-          server = client.orders.order(machine.id)
+          server = client.orders.order(machine.id.to_i)
           if server.nil?
             # The machine can't be found
             @logger.info("Machine couldn't be found, assuming it got destroyed.")

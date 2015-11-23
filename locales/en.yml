@@ -26,6 +26,7 @@ en:
         creating_user: "Creating user account: %{user}..."
         modifying_sudo: "Modifying sudoers file to remove tty requirement..."
         reloading: "Rebooting the VPS..."
+        rebuilding: "Rebuilding the VPS..."
         config:
             api_key: "The RIMU API Key option: [api_key] is required"
             host_name: "The Host name option: [host_name] is required"

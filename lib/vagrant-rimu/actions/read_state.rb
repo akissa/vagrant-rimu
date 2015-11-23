@@ -19,7 +19,7 @@ module VagrantPlugins
 
         def read_state(client, machine)
           return :not_created if machine.id.nil?
-          server = client.servers.status(machine.id)
+          server = client.servers.status(machine.id.to_i)
           return :not_created if server.nil?
           status = server.running_state
           return :not_created if status.nil?

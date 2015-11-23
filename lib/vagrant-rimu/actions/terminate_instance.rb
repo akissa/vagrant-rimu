@@ -14,7 +14,7 @@ module VagrantPlugins
         def call(env)
           if env[:machine].id
             env[:ui].info(I18n.t("vagrant_rimu.terminating"))
-            @client.servers.cancel(env[:machine].id)
+            @client.servers.cancel(env[:machine].id.to_i)
             env[:machine].id = nil
           end
 

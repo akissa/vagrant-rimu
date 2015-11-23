@@ -13,7 +13,7 @@ module VagrantPlugins
       def call(env)
         env[:ui].info I18n.t('vagrant_rimu.starting')
         begin
-          result = @client.servers.start(@machine.id)
+          result = @client.servers.start(@machine.id.to_i)
           raise StandardError, "No response from the API" if result.nil?
           raise StandardError, "VPS is not be running" if result.running_state != 'RUNNING'
         rescue StandardError => e

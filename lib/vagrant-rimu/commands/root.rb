@@ -5,7 +5,7 @@ module VagrantPlugins
     module Commands
       class Root < Vagrant.plugin('2', :command)
         def self.synopsis
-          'query Rimu for available distributions'
+          'query Rimu for various options'
         end
 
         def initialize(argv, env)
@@ -16,6 +16,21 @@ module VagrantPlugins
           @subcommands.register(:distributions) do
             require File.expand_path('../distributions', __FILE__)
             Distributions
+          end
+
+          @subcommands.register(:move) do
+            require File.expand_path('../move', __FILE__)
+            Move
+          end
+
+          @subcommands.register(:billing_methods) do
+            require File.expand_path('../billing_methods', __FILE__)
+            BillingMethods
+          end
+
+          @subcommands.register(:servers) do
+            require File.expand_path('../list_servers', __FILE__)
+            ListServers
           end
 
           super(argv, env)

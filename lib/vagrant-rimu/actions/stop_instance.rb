@@ -16,7 +16,7 @@ module VagrantPlugins
             env[:ui].info(I18n.t('vagrant_rimu.already_status', :status => env[:machine].state.id))
           else
             env[:ui].info(I18n.t('vagrant_rimu.stopping'))
-            @client.servers.shutdown(env[:machine].id)
+            @client.servers.shutdown(env[:machine].id.to_i)
           end
           @app.call(env)
         end

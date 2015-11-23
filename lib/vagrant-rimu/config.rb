@@ -69,11 +69,44 @@ module VagrantPlugins
       # @return [String]
       attr_accessor :vps_to_clone
 
+      # The reason for requiring more than one IP address.
+      # The number of IP addresses will be limited.
+      #
+      # @return [String]
       attr_accessor :extra_ip_reason
+
+      # How many IPs you need.  Typically 1.
+      #
+      # @return [String]
       attr_accessor :num_ips
+
+      # This option is often used for customers wanting to setup a VPS
+      # with private IPs
+      #
+      # @return [String]
       attr_accessor :private_ips
+
+      # Set the billing id if you want to control how it is billed.
+      # run `vagrant rimu billing-methods` to find what billing methods/ids
+      # you have setup on your account.
+      #
+      # @return [String]
       attr_accessor :billing_id
+
+      # The host server on which to setup the server.
+      # Typically you will want to leave this blank and let the API decide
+      # what is best/available.
+      #
+      # An exception may be if you are a customer with a dedicated server
+      # that is a VPS host.  And in that case you may want to force a VPS
+      # to be setup on a particular server of yours.
+      #
+      # @return [String]
       attr_accessor :host_server_id
+
+      # Do minimal setup work.
+      #
+      # @return [String]
       attr_accessor :minimal_init
 
       attr_accessor :setup

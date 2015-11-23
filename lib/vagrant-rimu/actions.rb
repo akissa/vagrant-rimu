@@ -84,7 +84,7 @@ module VagrantPlugins
         return Vagrant::Action::Builder.new.tap do |builder|
           builder.use ConfigValidate
           builder.use ConnectToRimu
-          builder.use Call, CheckState do |env, b|
+          builder.use Call, IsCreated do |env, b|
             case env[:machine_state]
             when :active
               b.use Provision
@@ -103,7 +103,7 @@ module VagrantPlugins
         return Vagrant::Action::Builder.new.tap do |builder|
           builder.use ConfigValidate
           builder.use ConnectToRimu
-          builder.use Call, CheckState do |env, b|
+          builder.use Call, IsCreated do |env, b|
             case env[:machine_state]
             when :active
               b.use MessageAlreadyCreated
@@ -145,7 +145,7 @@ module VagrantPlugins
         return Vagrant::Action::Builder.new.tap do |builder|
           builder.use ConfigValidate
           builder.use ConnectToRimu
-          builder.use Call, CheckState do |env, b|
+          builder.use Call, IsCreated do |env, b|
             case env[:machine_state]
             when :active
               b.use Reload
@@ -163,7 +163,7 @@ module VagrantPlugins
         return Vagrant::Action::Builder.new.tap do |builder|
           builder.use ConfigValidate
           builder.use ConnectToRimu
-          builder.use Call, CheckState do |env, b|
+          builder.use Call, IsCreated do |env, b|
             case env[:machine_state]
             when :active, :off
               b.use Rebuild
@@ -185,11 +185,36 @@ module VagrantPlugins
         end
       end
 
+      def self.action_list_servers
+        Vagrant::Action::Builder.new.tap do |b|
+          b.use ConfigValidate
+          b.use ConnectToRimu
+          b.use ListServers
+        end
+      end
+
+      def self.action_billing_methods
+        Vagrant::Action::Builder.new.tap do |b|
+          b.use ConfigValidate
+          b.use ConnectToRimu
+          b.use BillingMethods
+        end
+      end
+
+      def self.action_move
+        Vagrant::Action::Builder.new.tap do |b|
+          b.use ConfigValidate
+          b.use ConnectToRimu
+          b.use Move
+        end
+      end
+
       action_root = Pathname.new(File.expand_path('../actions', __FILE__))
       autoload :ConnectToRimu, action_root.join('connect_to_rimu')
       autoload :StopInstance, action_root.join('stop_instance')
       autoload :TerminateInstance, action_root.join('terminate_instance')
       autoload :IsCreated, action_root.join('is_created')
+      autoload :IsStopped, action_root.join('is_stopped')
       autoload :ReadSSHInfo, action_root.join('read_ssh_info')
       autoload :ReadState, action_root.join('read_state')
       autoload :StartInstance, action_root.join('start_instance')
@@ -200,6 +225,9 @@ module VagrantPlugins
       autoload :Reload, action_root.join('reload')
       autoload :Rebuild, action_root.join('rebuild')
       autoload :ListDistributions, action_root.join('list_distributions')
+      autoload :ListServers, action_root.join('list_servers')
+      autoload :BillingMethods, action_root.join('billing_methods')
+      autoload :Move, action_root.join('move')
       autoload :MessageAlreadyOff, action_root.join('message_already_off')
       autoload :MessageNotCreated, action_root.join('message_not_created')
       autoload :MessageWillNotDestroy, action_root.join('message_will_not_destroy')

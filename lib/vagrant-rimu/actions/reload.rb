@@ -13,7 +13,7 @@ module VagrantPlugins
 
         def call(env)
           env[:ui].info I18n.t('vagrant_rimu.reloading')
-          @client.servers.reboot(@machine.id)
+          @client.servers.reboot(@machine.id.to_i)
 
           @app.call(env)
         end
