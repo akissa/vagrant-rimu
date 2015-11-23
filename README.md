@@ -49,7 +49,6 @@ Vagrant.configure('2') do |config|
     # provider.billing_id = 9999
     # provider.host_server_id = 9999
     # provider.minimal_init = true
-    # provider.ssh_key_name = 'rimu'
   end
 end
 ```

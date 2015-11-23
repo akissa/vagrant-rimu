@@ -111,11 +111,6 @@ module VagrantPlugins
 
       attr_accessor :setup
 
-      # SSH Key name
-      #
-      # @return [String]
-      attr_accessor :ssh_key_name
-
       alias_method :setup?, :setup
 
       def initialize
@@ -138,7 +133,6 @@ module VagrantPlugins
         @host_server_id = UNSET_VALUE
         @minimal_init = UNSET_VALUE
         @data_centre = UNSET_VALUE
-        @ssh_key_name = UNSET_VALUE
       end
 
       def finalize!
@@ -160,7 +154,6 @@ module VagrantPlugins
         @host_server_id = nil if @host_server_id == UNSET_VALUE
         @minimal_init = nil if @minimal_init == UNSET_VALUE
         @data_centre = nil if @data_centre == UNSET_VALUE
-        @ssh_key_name = "Vagrant" if @ssh_key_name == UNSET_VALUE
         @setup = true if @setup == UNSET_VALUE
       end
 
