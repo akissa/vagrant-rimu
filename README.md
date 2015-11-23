@@ -91,7 +91,7 @@ The provider supports the following Vagrant sub-commands:
 
 ## Contributing
 
-1. Fork it (https://github.com/akissa/vagrant-rimuhosting/fork)
+1. Fork it (https://github.com/akissa/vagrant-rimu/fork)
 2. Create your feature branch (`git checkout -b my-new-feature`)
 3. Commit your changes (`git commit -am 'Add some feature'`)
 4. Push to the branch (`git push origin my-new-feature`)
@@ -101,4 +101,4 @@ The provider supports the following Vagrant sub-commands:
 ## License
 
 All code is licensed under the
-[MPLv2 License](https://github.com/akissa/vagrant-rimuhosting/blob/master/LICENSE).
+[MPLv2 License](https://github.com/akissa/vagrant-rimu/blob/master/LICENSE).
