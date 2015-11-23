@@ -24,18 +24,18 @@ module VagrantPlugins
 
       # File system image size on primary partition in MB
       #
-      # @return [String]
+      # @return [Fixnum]
       attr_accessor :disk_space_mb
 
       # File system image size on secondary partition in MB
       # Mostly not used.
       #
-      # @return [String]
+      # @return [Fixnum]
       attr_accessor :disk_space_2_mb
 
       # Memory size in MB
       #
-      # @return [String]
+      # @return [Fixnum]
       attr_accessor :memory_mb
 
       # You can specify a vps_type
@@ -66,7 +66,7 @@ module VagrantPlugins
       # The clone source VPS will be paused for a few seconds to a few minutes
       # to take the snapshot.
       #
-      # @return [String]
+      # @return [Fixnum]
       attr_accessor :vps_to_clone
 
       # The reason for requiring more than one IP address.
@@ -77,7 +77,7 @@ module VagrantPlugins
 
       # How many IPs you need.  Typically 1.
       #
-      # @return [String]
+      # @return [Fixnum]
       attr_accessor :num_ips
 
       # This option is often used for customers wanting to setup a VPS
@@ -90,7 +90,7 @@ module VagrantPlugins
       # run `vagrant rimu billing-methods` to find what billing methods/ids
       # you have setup on your account.
       #
-      # @return [String]
+      # @return [Fixnum]
       attr_accessor :billing_id
 
       # The host server on which to setup the server.
@@ -101,12 +101,12 @@ module VagrantPlugins
       # that is a VPS host.  And in that case you may want to force a VPS
       # to be setup on a particular server of yours.
       #
-      # @return [String]
+      # @return [Fixnum]
       attr_accessor :host_server_id
 
       # Do minimal setup work.
       #
-      # @return [String]
+      # @return [bool]
       attr_accessor :minimal_init
 
       attr_accessor :setup
@@ -145,9 +145,9 @@ module VagrantPlugins
         @api_key = ENV['RIMU_API_KEY'] if @api_key == UNSET_VALUE
         @api_url = ENV['RIMU_URL'] if @api_url == UNSET_VALUE
         @distro_code = "centos6.64" if @distro_code == UNSET_VALUE
-        @disk_space_mb = "20000" if @disk_space_mb == UNSET_VALUE
+        @disk_space_mb = 20000 if @disk_space_mb == UNSET_VALUE
         @disk_space_2_mb = nil if @disk_space_2_mb == UNSET_VALUE
-        @memory_mb = "1024" if @memory_mb == UNSET_VALUE
+        @memory_mb = 1024 if @memory_mb == UNSET_VALUE
         @vps_type = nil if @vps_type == UNSET_VALUE
         @host_name = nil if @host_name == UNSET_VALUE
         @root_password = nil if @root_password == UNSET_VALUE
