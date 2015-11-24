@@ -33,6 +33,7 @@ en:
             invalid_host_name: |-
                 Host name: %{host_name} is not a fully qualified domain name (FQDN)
             private_key: "A valid SSH private key path option: [private_key_path] is required"
+            missing_private_key: "SSH private key not found: %{key}"
             public_key: "SSH public key not found: %{key}"
         errors:
             api_error: |-
