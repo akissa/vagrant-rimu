@@ -1,23 +1,22 @@
-# require "codeclimate-test-reporter"
-# CodeClimate::TestReporter.start
 require 'simplecov'
 require 'coveralls'
+require 'codeclimate-test-reporter'
 
 if ENV['CI']=='true'
   require 'codecov'
   SimpleCov.formatter = SimpleCov::Formatter::Codecov
+  Coveralls.wear!
+  CodeClimate::TestReporter.start
 end
 
 SimpleCov.start
-
-require 'rubygems'
-require 'rspec'
-require 'rspec/its'
 
 Dir['lib/**/*.rb'].each do|file|
   require_string = file.match(/lib\/(.*)\.rb/)[1]
   require require_string
 end
+
+require 'rspec/its'
 
 I18n.load_path << File.expand_path('locales/en.yml', Pathname.new(File.expand_path('../../', __FILE__)))
 
@@ -26,6 +25,6 @@ RSpec.configure do |config|
     c.syntax = [:should, :expect]
   end
   config.expect_with :rspec do |c|
-    c.syntax = :should
+    c.syntax = [:should, :expect]
   end
 end
