@@ -5,6 +5,8 @@ management of [Rimuhosting](https://www.rimuhosting.com/) VPS's.
 
 [![Build Status](https://travis-ci.org/akissa/vagrant-rimu.svg?branch=master)](https://travis-ci.org/akissa/vagrant-rimu)
 [![codecov.io](https://codecov.io/github/akissa/vagrant-rimu/coverage.svg?branch=master)](https://codecov.io/github/akissa/vagrant-rimu?branch=master)
+[![Code Climate](https://codeclimate.com/github/akissa/vagrant-rimu/badges/gpa.svg)](https://codeclimate.com/github/akissa/vagrant-rimu)
+[![Test Coverage](https://codeclimate.com/github/akissa/vagrant-rimu/badges/coverage.svg)](https://codeclimate.com/github/akissa/vagrant-rimu/coverage)
 [![MPLv2 License](https://img.shields.io/badge/license-MPLv2-blue.svg?style=flat-square)](https://www.mozilla.org/MPL/2.0/)
 
 Current Features include:
