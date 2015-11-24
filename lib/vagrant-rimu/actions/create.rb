@@ -1,4 +1,5 @@
 require 'log4r'
+require 'vagrant'
 
 module VagrantPlugins
   module Rimu
