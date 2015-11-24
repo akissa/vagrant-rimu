@@ -3,6 +3,10 @@
 `vagrant-rimuhosting` is a provider plugin for Vagrant that supports the
 management of [Rimuhosting](https://www.rimuhosting.com/) VPS's.
 
+[![Build Status](https://travis-ci.org/akissa/vagrant-rimu.svg?branch=master)](https://travis-ci.org/akissa/vagrant-rimu)
+[![codecov.io](https://codecov.io/github/akissa/vagrant-rimu/coverage.svg?branch=master)](https://codecov.io/github/akissa/vagrant-rimu?branch=master)
+[![MPLv2 License](https://img.shields.io/badge/license-MPLv2-blue.svg?style=flat-square)](https://www.mozilla.org/MPL/2.0/)
+
 Current Features include:
 - create and destroy VPS's
 - power on and off VPS's
