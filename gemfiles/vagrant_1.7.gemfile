@@ -1,7 +1,7 @@
-source "https://rubygems.org"
+source 'https://rubygems.org'
 
 group :development do
-    gem "vagrant", :git => "https://github.com/mitchellh/vagrant", :tag => "v1.7.1"
+    gem 'vagrant', :git => 'https://github.com/mitchellh/vagrant', :tag => 'v1.7.1'
 end
 
 group :test do
@@ -12,7 +12,7 @@ group :test do
 end
 
 group :plugins do
-    gem "bundler", ">= 1.5.2", "< 1.8.0"
+    gem 'bundler', '>= 1.5.2', '< 1.8.0'
     gem 'vagrant-rimu', :path => '../'
-    gemspec :path => "../"
+    gemspec :path => '../'
 end
