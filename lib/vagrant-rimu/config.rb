@@ -140,8 +140,11 @@ module VagrantPlugins
         @api_url = ENV['RIMU_URL'] if @api_url == UNSET_VALUE
         @distro_code = "centos6.64" if @distro_code == UNSET_VALUE
         @disk_space_mb = 20000 if @disk_space_mb == UNSET_VALUE
+        # @disk_space_mb = @disk_space_mb.to_i if @disk_space_mb.kind_of? String
         @disk_space_2_mb = nil if @disk_space_2_mb == UNSET_VALUE
+        # @disk_space_2_mb = @disk_space_2_mb.to_i if @disk_space_2_mb.kind_of? String
         @memory_mb = 1024 if @memory_mb == UNSET_VALUE
+        # @memory_mb = @memory_mb.to_i if @memory_mb.kind_of? String
         @vps_type = nil if @vps_type == UNSET_VALUE
         @host_name = nil if @host_name == UNSET_VALUE
         @root_password = nil if @root_password == UNSET_VALUE
@@ -150,7 +153,7 @@ module VagrantPlugins
         @extra_ip_reason = nil if @extra_ip_reason == UNSET_VALUE
         @num_ips = nil if @num_ips == UNSET_VALUE
         @private_ips = nil if @private_ips == UNSET_VALUE
-        @billing_id = nil if @billing_oid == UNSET_VALUE
+        @billing_id = nil if @billing_id == UNSET_VALUE
         @host_server_id = nil if @host_server_id == UNSET_VALUE
         @minimal_init = nil if @minimal_init == UNSET_VALUE
         @data_centre = nil if @data_centre == UNSET_VALUE
@@ -163,15 +166,21 @@ module VagrantPlugins
         errors << I18n.t('vagrant_rimu.config.host_name') if !@host_name
         if @host_name
           errors << I18n.t('vagrant_rimu.config.invalid_host_name', {:host_name => @host_name}) \
-            unless @hostname.match(/\b((?=[a-z0-9-]{1,63}\.)(xn--)?[a-z0-9]+(-[a-z0-9]+)*\.)+[a-z]{2,63}\b/)
+            unless @host_name.match(/\b((?=[a-z0-9-]{1,63}\.)(xn--)?[a-z0-9]+(-[a-z0-9]+)*\.)+[a-z]{2,63}\b/)
         end
 
         key = machine.config.ssh.private_key_path
         key = key[0] if key.is_a?(Array)
         if !key
           errors << I18n.t('vagrant_rimu.config.private_key')
-        elsif !File.file?(File.expand_path("#{key}.pub", machine.env.root_path))
-          errors << I18n.t('vagrant_rimu.config.public_key', key: "#{key}.pub")
+        else
+          if !File.file?(File.expand_path("#{key}", machine.env.root_path))
+            errors << I18n.t('vagrant_rimu.config.missing_private_key', key: "#{key}")
+          else
+            if !File.file?(File.expand_path("#{key}.pub", machine.env.root_path))
+              errors << I18n.t('vagrant_rimu.config.public_key', key: "#{key}.pub")
+            end
+          end
         end
 
         { 'Rimu Provider' => errors }
