@@ -1,4 +1,5 @@
 require 'pathname'
+
 require 'spec_helper'
 
 describe VagrantPlugins::Rimu::Config do

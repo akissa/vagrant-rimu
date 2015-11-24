@@ -42,7 +42,11 @@ module VagrantPlugins
       end
 
       def to_s
-        id = @machine.id.nil? ? 'new' : @machine.id
+        if @machine.respond_to?('id') and ! @machine.id.nil?
+          id = @machine.id
+        else
+          id = 'new'
+        end
         "Rimu (#{id})"
       end
     end
