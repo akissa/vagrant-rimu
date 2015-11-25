@@ -8,7 +8,6 @@ describe VagrantPlugins::Rimu::Actions::Reload do
   let(:servers) { double('servers') }
   let(:reboot) { double('reboot') }
   let(:machine) { double('machine') }
-  let(:state) { double('state') }
   let(:id) { '200' }
 
   let(:env) do
@@ -34,8 +33,6 @@ describe VagrantPlugins::Rimu::Actions::Reload do
 
   describe 'call' do
     it 'restarts the server' do
-      state.stub(:id) { :running }
-      env[:machine].stub(:state) { state }
       expect(env[:rimu_api].servers).to receive(:reboot).with(id.to_i)
       expect(app).to receive(:call)
       @action = VagrantPlugins::Rimu::Actions::Reload.new(app, env)
