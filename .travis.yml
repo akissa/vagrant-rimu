@@ -5,6 +5,9 @@ before_install:
   - gem uninstall bundler --all --force --executables
   - gem install bundler -v "$BUNDLER_VERSION"
 # bundler_args: --without development
+addons:
+    code_climate:
+        repo_token: 3a5d0d815b7e9bc2c6b4608f74babd935d43fa564cd9041944dfd221f593a4db
 matrix:
   include:
     - gemfile: Gemfile
