@@ -8,8 +8,8 @@ module VagrantPlugins
 
         def initialize(app, env)
           @app = app
+          @client = env[:rimu_api]
           @machine = env[:machine]
-          @client = client
           @logger = Log4r::Logger.new('vagrant::rimu::rebuild')
         end
 
