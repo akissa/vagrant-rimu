@@ -5,7 +5,7 @@ module VagrantPlugins
     module Actions
       # This terminates the running server, if there is one.
       class TerminateInstance
-        def initialize(app, _env)
+        def initialize(app, env)
           @app = app
           @client = env[:rimu_api]
           @logger = Log4r::Logger.new("vagrant_rimu::action::terminate_instance")
