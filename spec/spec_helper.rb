@@ -2,14 +2,13 @@ require 'simplecov'
 require 'coveralls'
 require 'codeclimate-test-reporter'
 
+SimpleCov.start
 if ENV['CI']=='true'
   require 'codecov'
   SimpleCov.formatter = SimpleCov::Formatter::Codecov
   Coveralls.wear!
   CodeClimate::TestReporter.start
 end
-
-SimpleCov.start
 
 Dir['lib/**/*.rb'].each do|file|
   require_string = file.match(/lib\/(.*)\.rb/)[1]
