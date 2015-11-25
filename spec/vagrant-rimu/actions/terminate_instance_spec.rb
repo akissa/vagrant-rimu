@@ -43,7 +43,7 @@ describe VagrantPlugins::Rimu::Actions::TerminateInstance do
       end
     end
     context 'when server id is not set' do
-      it 'does nothing' do
+      it 'do nothing' do
         env[:machine].id = nil
         expect(env[:rimu_api].servers).to_not receive(:cancel)
         expect(app).to receive(:call)
