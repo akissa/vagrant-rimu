@@ -34,22 +34,26 @@ describe VagrantPlugins::Rimu::Actions::ReadState do
   end
 
   describe 'call' do
-    it 'should not call status' do
-      env[:machine].id.stub(:nil?) { true }
-      expect(env[:machine].id).to receive(:nil?)
-      expect(env[:rimu_api].servers).not_to receive(:status).with(id.to_i)
-      expect(app).to receive(:call)
-      @action = VagrantPlugins::Rimu::Actions::ReadState.new(app, env)
-      @action.call(env)
+    context 'when machine id is nil' do
+      it 'should not call status' do
+        env[:machine].id.stub(:nil?) { true }
+        expect(env[:machine].id).to receive(:nil?)
+        expect(env[:rimu_api].servers).not_to receive(:status).with(id.to_i)
+        expect(app).to receive(:call)
+        @action = VagrantPlugins::Rimu::Actions::ReadState.new(app, env)
+        @action.call(env)
+      end
     end
     
-    it 'should call status' do
-      env[:machine].id.stub(:nil?) { false }
-      expect(env[:machine].id).to receive(:nil?)
-      expect(env[:rimu_api].servers).to receive(:status).with(id.to_i)
-      expect(app).to receive(:call)
-      @action = VagrantPlugins::Rimu::Actions::ReadState.new(app, env)
-      @action.call(env)
+    context 'when machine id is not nil' do
+      it 'should call status' do
+        env[:machine].id.stub(:nil?) { false }
+        expect(env[:machine].id).to receive(:nil?)
+        expect(env[:rimu_api].servers).to receive(:status).with(id.to_i)
+        expect(app).to receive(:call)
+        @action = VagrantPlugins::Rimu::Actions::ReadState.new(app, env)
+        @action.call(env)
+      end
     end
   end
 end
