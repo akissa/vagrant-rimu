@@ -66,7 +66,6 @@ describe VagrantPlugins::Rimu::Actions::ModifyProvisionPath do
         env.stub(:has_key?).with(:provision_enabled) { false }
         expect(env).to receive(:has_key?).with(:provision_enabled)
         expect(env[:machine]).to receive(:ssh_info)
-        # expect(env[:machine].config.vm.provisioners).to receive(:each)
         expect(env[:machine].config.vm.provisioners).to receive(:each)
         expect(env[:machine].communicate).to receive(:sudo)
         @action = VagrantPlugins::Rimu::Actions::ModifyProvisionPath.new(app, env)
