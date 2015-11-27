@@ -58,5 +58,18 @@ describe VagrantPlugins::Rimu::Actions::ReadSSHInfo do
         @action.call(env)
       end
     end
+    
+    context 'when api call returns nil' do
+      it 'should return nil machine id' do
+        env[:machine].id.stub(:nil?) { false }
+        expect(env[:machine].id).to receive(:nil?)
+        expect(order).not_to receive(:allocated_ips)
+        expect(env[:rimu_api].orders).to receive(:order).with(id.to_i).and_return(nil)
+        expect(env[:machine]).to receive(:id=).with(nil)
+        expect(app).to receive(:call)
+        @action = VagrantPlugins::Rimu::Actions::ReadSSHInfo.new(app, env)
+        @action.call(env)
+      end
+    end
   end
 end
