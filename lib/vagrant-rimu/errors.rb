@@ -1,3 +1,5 @@
+require 'vagrant'
+
 module VagrantPlugins
   module Rimu
     module Errors

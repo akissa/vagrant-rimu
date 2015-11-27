@@ -1,4 +1,6 @@
-require "vagrant-rimu/actions"
+require 'vagrant'
+
+require 'vagrant-rimu/actions'
 
 module VagrantPlugins
   module Rimu
