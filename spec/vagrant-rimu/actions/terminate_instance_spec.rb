@@ -9,7 +9,6 @@ require 'spec_helper'
 describe VagrantPlugins::Rimu::Actions::TerminateInstance do
   let(:servers) { double('servers') }
   let(:cancel) { double('cancel') }
-  let(:machine) { double('machine') }
 
   let(:env) do
     {}.tap do |env|
