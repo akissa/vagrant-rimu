@@ -9,7 +9,7 @@ module VagrantPlugins
 
       # This action is called to terminate the remote machine.
       def self.action_destroy
-        Vagrant::Action::Builder.new.tap do |b|
+        new_builder.tap do |b|
           b.use Call, DestroyConfirm do |env, b2|
             if env[:result]
               b2.use ConfigValidate
@@ -32,7 +32,7 @@ module VagrantPlugins
       # resulting state is expected to be put into the `:machine_ssh_info`
       # key.
       def self.action_read_ssh_info
-        Vagrant::Action::Builder.new.tap do |b|
+        new_builder.tap do |b|
           b.use ConfigValidate
           b.use ConnectToRimu
           b.use ReadSSHInfo
@@ -43,7 +43,7 @@ module VagrantPlugins
       # resulting state is expected to be put into the `:machine_state_id`
       # key.
       def self.action_read_state
-        Vagrant::Action::Builder.new.tap do |b|
+        new_builder.tap do |b|
           b.use ConfigValidate
           b.use ConnectToRimu
           b.use ReadState
@@ -52,7 +52,7 @@ module VagrantPlugins
 
       # This action is called to SSH into the machine.
       def self.action_ssh
-        Vagrant::Action::Builder.new.tap do |b|
+        new_builder.tap do |b|
           b.use ConfigValidate
           b.use Call, IsCreated do |env, b2|
             if !env[:result]
@@ -66,7 +66,7 @@ module VagrantPlugins
       end
 
       def self.action_ssh_run
-        Vagrant::Action::Builder.new.tap do |b|
+        new_builder.tap do |b|
           b.use ConfigValidate
           b.use Call, IsCreated do |env, b2|
             if !env[:result]
@@ -81,7 +81,7 @@ module VagrantPlugins
 
       # This action is called when `vagrant provision` is called.
       def self.action_provision
-        return Vagrant::Action::Builder.new.tap do |builder|
+        return new_builder.tap do |builder|
           builder.use ConfigValidate
           builder.use ConnectToRimu
           builder.use Call, IsCreated do |env, b|
@@ -100,7 +100,7 @@ module VagrantPlugins
       end
 
       def self.action_up
-        return Vagrant::Action::Builder.new.tap do |builder|
+        return new_builder.tap do |builder|
           builder.use ConfigValidate
           builder.use ConnectToRimu
           builder.use Call, IsCreated do |env, b|
@@ -122,7 +122,7 @@ module VagrantPlugins
 
       # This action is called to halt the remote machine.
       def self.action_halt
-        Vagrant::Action::Builder.new.tap do |builder|
+        new_builder.tap do |builder|
           builder.use ConfigValidate
           builder.use Call, IsCreated do |env, b1|
             if env[:result]
@@ -142,7 +142,7 @@ module VagrantPlugins
       end
 
       def self.action_reload
-        return Vagrant::Action::Builder.new.tap do |builder|
+        return new_builder.tap do |builder|
           builder.use ConfigValidate
           builder.use ConnectToRimu
           builder.use Call, IsCreated do |env, b|
@@ -160,7 +160,7 @@ module VagrantPlugins
       end
 
       def self.action_rebuild
-        return Vagrant::Action::Builder.new.tap do |builder|
+        return new_builder.tap do |builder|
           builder.use ConfigValidate
           builder.use ConnectToRimu
           builder.use Call, IsCreated do |env, b|
@@ -178,7 +178,7 @@ module VagrantPlugins
       end
 
       def self.action_list_distributions
-        Vagrant::Action::Builder.new.tap do |b|
+        new_builder.tap do |b|
           b.use ConfigValidate
           b.use ConnectToRimu
           b.use ListDistributions
@@ -186,7 +186,7 @@ module VagrantPlugins
       end
 
       def self.action_list_servers
-        Vagrant::Action::Builder.new.tap do |b|
+        new_builder.tap do |b|
           b.use ConfigValidate
           b.use ConnectToRimu
           b.use ListServers
@@ -194,7 +194,7 @@ module VagrantPlugins
       end
 
       def self.action_billing_methods
-        Vagrant::Action::Builder.new.tap do |b|
+        new_builder.tap do |b|
           b.use ConfigValidate
           b.use ConnectToRimu
           b.use BillingMethods
@@ -202,7 +202,7 @@ module VagrantPlugins
       end
 
       def self.action_move
-        Vagrant::Action::Builder.new.tap do |b|
+        new_builder.tap do |b|
           b.use ConfigValidate
           b.use ConnectToRimu
           b.use Move
@@ -232,6 +232,12 @@ module VagrantPlugins
       autoload :MessageNotCreated, action_root.join('message_not_created')
       autoload :MessageWillNotDestroy, action_root.join('message_will_not_destroy')
       autoload :MessageAlreadyCreated, action_root.join('message_already_created')
+      
+      private
+
+      def self.new_builder
+        new_builder
+      end
     end
   end
 end
