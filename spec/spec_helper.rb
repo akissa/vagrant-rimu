@@ -1,5 +1,5 @@
-require 'codecov'
 require 'simplecov'
+require 'codecov'
 require 'coveralls'
 require 'codeclimate-test-reporter'
 
