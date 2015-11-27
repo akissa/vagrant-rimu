@@ -14,6 +14,8 @@ Gem::Specification.new do |gem|
   gem.test_files    = gem.files.grep(%r{^(test|spec|features)/})
   gem.name          = 'vagrant-rimu'
   gem.require_paths = ['lib']
+  gem.required_ruby_version = '>= 2.0.0'
+  gem.extra_rdoc_files = ['README.md']
   gem.version       = VagrantPlugins::Rimu::VERSION
 
   gem.add_runtime_dependency 'rimu', '~> 0.0.3'
