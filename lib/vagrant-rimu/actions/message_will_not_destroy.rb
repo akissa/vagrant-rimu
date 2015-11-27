@@ -2,12 +2,13 @@ module VagrantPlugins
   module Rimu
     module Actions
       class MessageWillNotDestroy
-        def initialize(app, _env)
+        def initialize(app, env)
           @app = app
+          @machine = env[:machine]
         end
 
         def call(env)
-          env[:ui].info(I18n.t('vagrant_rimu.will_not_destroy', name: env[:machine].name))
+          env[:ui].info(I18n.t('vagrant_rimu.will_not_destroy', {:name => @machine.name}))
           @app.call(env)
         end
       end
