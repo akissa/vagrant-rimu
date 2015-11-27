@@ -1,4 +1,6 @@
+require 'ostruct'
 require 'pathname'
+
 require 'spec_helper'
 
 # action_root = Pathname.new(File.expand_path('../../../../lib/vagrant-rimu/actions', __FILE__))
