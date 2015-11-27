@@ -1,10 +1,10 @@
+require 'codecov'
 require 'simplecov'
 require 'coveralls'
 require 'codeclimate-test-reporter'
 
 SimpleCov.start
 if ENV['CI']=='true'
-  require 'codecov'
   SimpleCov.formatters = [
     SimpleCov::Formatter::Codecov,
     Coveralls::SimpleCov::Formatter,
