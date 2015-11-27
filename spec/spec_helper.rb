@@ -5,7 +5,11 @@ require 'codeclimate-test-reporter'
 SimpleCov.start
 if ENV['CI']=='true'
   require 'codecov'
-  SimpleCov.formatter = SimpleCov::Formatter::Codecov
+  SimpleCov.formatters = [
+    SimpleCov::Formatter::Codecov,
+    Coveralls::SimpleCov::Formatter,
+    CodeClimate::TestReporter::Formatter,
+  ]
   Coveralls.wear!
   CodeClimate::TestReporter.start
 end
