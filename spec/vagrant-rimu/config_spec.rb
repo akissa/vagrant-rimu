@@ -10,7 +10,7 @@ describe VagrantPlugins::Rimu::Config do
       super().tap(&:finalize!)
     end
 
-    its(:api_key) { should be_nil }
+    its(:api_key) { should eq(ENV['RIMU_API_KEY']) }
     its(:api_url) { should be_nil }
     its(:distro_code) { should eq("centos6.64") }
     its(:data_centre) { should be_nil }
