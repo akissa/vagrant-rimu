@@ -4,7 +4,7 @@ gemspec :path => '../'
 
 group :development do
   gem 'vagrant', :git => 'https://github.com/mitchellh/vagrant', :tag => 'v1.5.4'
-  gem 'rubocop', '0.29.0', :require => false
+  gem 'rubocop', '~> 0.29.0', :require => false
 end
 
 group :test do

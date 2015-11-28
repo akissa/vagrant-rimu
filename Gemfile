@@ -16,7 +16,7 @@ group :development do
   else
     gem 'vagrant', :git => 'https://github.com/mitchellh/vagrant.git'
   end
-  gem 'rubocop', '0.29.0', :require => false
+  gem 'rubocop', '~> 0.29.0', :require => false
 end
 
 group :plugins do
