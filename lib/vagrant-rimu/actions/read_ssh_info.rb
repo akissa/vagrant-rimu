@@ -1,18 +1,20 @@
 require 'log4r'
 
+require 'vagrant-rimu/actions/abstract_action'
+
 module VagrantPlugins
   module Rimu
     module Actions
       # This action reads the SSH info for the machine and puts it into the
       # `:machine_ssh_info` key in the environment.
-      class ReadSSHInfo
+      class ReadSSHInfo < AbstractAction
         def initialize(app, env)
           @app = app
           @machine = env[:machine]
           @logger = Log4r::Logger.new("vagrant_rimu::action::read_ssh_info")
         end
 
-        def call(env)
+        def execute(env)
           client = env[:rimu_api]
           env[:machine_ssh_info] = read_ssh_info(client, @machine)
 

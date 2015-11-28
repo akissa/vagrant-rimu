@@ -1,18 +1,23 @@
+require 'vagrant-rimu/commands/utils'
+require 'vagrant-rimu/actions/abstract_action'
+
 module VagrantPlugins
   module Rimu
     module Actions
-      class ListServers
+      class ListServers < AbstractAction
+        include VagrantPlugins::Rimu::Commands::Utils
+
         def initialize(app, _env)
           @app = app
         end
 
-        def call(env)
-          heading = '%-10s %-30s %-20s %-15s %-15s' % ['ID', 'Hostname', 'Data Centre', 'Host Server', 'Status']
-          env[:ui].info heading
+        def execute(env)
+          rows = []
           env[:rimu_api].orders.orders.each do |o|
-            row = '%-10s %-30s %-20s %-15s %-15s' % [o.order_oid, o.domain_name, o.location["data_center_location_code"], o.host_server_oid, o.running_state]
-            env[:ui].info row
+            rows << [o.order_oid, o.domain_name, o.location["data_center_location_code"], o.host_server_oid, o.running_state]
           end
+          display_table(env, ['ID', 'Hostname', 'Data Centre', 'Host Server', 'Status'], rows)
+
           @app.call(env)
         end
       end

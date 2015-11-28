@@ -1,16 +1,18 @@
 require 'log4r'
 
+require 'vagrant-rimu/actions/abstract_action'
+
 module VagrantPlugins
   module Rimu
     module Actions
-      class SetupUser
+      class SetupUser < AbstractAction
         def initialize(app, env)
           @app = app
           @machine = env[:machine]
           @logger = Log4r::Logger.new('vagrant::rimu::setup_user')
         end
 
-        def call(env)
+        def execute(env)
           # check if setup is enabled
           return @app.call(env) unless @machine.provider_config.setup?
 

@@ -1,10 +1,12 @@
 require 'log4r'
 require 'vagrant'
 
+require 'vagrant-rimu/actions/abstract_action'
+
 module VagrantPlugins
   module Rimu
     module Actions
-      class Create
+      class Create < AbstractAction
         include Vagrant::Util::Retryable
         def initialize(app, env)
           @app = app
@@ -12,7 +14,7 @@ module VagrantPlugins
           @logger = Log4r::Logger.new('vagrant::rimu::create')
         end
 
-        def call(env)
+        def execute(env)
           client = env[:rimu_api]
           env[:ui].info I18n.t('vagrant_rimu.creating')
           params = {

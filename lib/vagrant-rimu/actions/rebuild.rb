@@ -3,7 +3,7 @@ require 'log4r'
 module VagrantPlugins
   module Rimu
     module Actions
-      class Rebuild
+      class Rebuild < AbstractAction
         include Vagrant::Util::Retryable
 
         def initialize(app, env)
@@ -12,7 +12,7 @@ module VagrantPlugins
           @logger = Log4r::Logger.new('vagrant::rimu::rebuild')
         end
 
-        def call(env)
+        def execute(env)
           client = env[:rimu_api]
           env[:ui].info I18n.t('vagrant_rimu.rebuilding')
           params = {
