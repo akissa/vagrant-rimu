@@ -18,7 +18,7 @@ Gem::Specification.new do |gem|
   gem.extra_rdoc_files = ['README.md']
   gem.version       = VagrantPlugins::Rimu::VERSION
 
-  gem.add_runtime_dependency 'rimu', '~> 0.0.3'
+  gem.add_runtime_dependency 'rimu', '~> 0.0.6'
   gem.add_development_dependency 'bundler', '~> 1.5'
   gem.add_development_dependency 'rspec', '~> 3.1.0'
   gem.add_development_dependency 'rspec-its', '~> 1.0.1'
