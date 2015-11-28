@@ -5,9 +5,8 @@ module VagrantPlugins
     module Actions
       # This stops the running instance.
       class StopInstance
-        def initialize(app, env)
+        def initialize(app, _env)
           @app    = app
-          @client = env[:rimu_api]
           @logger = Log4r::Logger.new('vagrant_rimu::action::stop_instance')
         end
 
@@ -16,8 +15,10 @@ module VagrantPlugins
             env[:ui].info(I18n.t('vagrant_rimu.already_status', :status => env[:machine].state.id))
           else
             env[:ui].info(I18n.t('vagrant_rimu.stopping'))
-            @client.servers.shutdown(env[:machine].id.to_i)
+            client = env[:rimu_api]
+            client.servers.shutdown(env[:machine].id.to_i)
           end
+          
           @app.call(env)
         end
       end

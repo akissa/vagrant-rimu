@@ -8,12 +8,12 @@ module VagrantPlugins
 
         def initialize(app, env)
           @app = app
-          @client = env[:rimu_api]
           @machine = env[:machine]
           @logger = Log4r::Logger.new('vagrant::rimu::rebuild')
         end
 
         def call(env)
+          client = env[:rimu_api]
           env[:ui].info I18n.t('vagrant_rimu.rebuilding')
           params = {
             :instantiation_options => {
@@ -35,7 +35,7 @@ module VagrantPlugins
           }
           params.delete(:instantiation_via_clone_options) if @machine.provider_config.vps_to_clone.nil?
           params.delete(:instantiation_options) if params.has_key?(:instantiation_via_clone_options)
-          @client.servers.reinstall(@machine.id.to_i, params)
+          client.servers.reinstall(@machine.id.to_i, params)
           switch_user = @machine.provider_config.setup?
           user = @machine.config.ssh.username
           @machine.config.ssh.username = 'root' if switch_user

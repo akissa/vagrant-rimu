@@ -8,12 +8,12 @@ module VagrantPlugins
         include Vagrant::Util::Retryable
         def initialize(app, env)
           @app = app
-          @client = env[:rimu_api]
           @machine = env[:machine]
           @logger = Log4r::Logger.new('vagrant::rimu::create')
         end
 
         def call(env)
+          client = env[:rimu_api]
           env[:ui].info I18n.t('vagrant_rimu.creating')
           params = {
             :billing_oid => @machine.provider_config.billing_id,
@@ -52,7 +52,7 @@ module VagrantPlugins
           if params.has_key?(:instantiation_options)
             params[:instantiation_options][:password] = root_pass
           end
-          result = @client.servers.create(params)
+          result = client.servers.create(params)
           @machine.id = result.order_oid
           env[:ui].info I18n.t('vagrant_rimu.ip_address', {:ip => result.allocated_ips["primary_ip"]})
           switch_user = @machine.provider_config.setup?

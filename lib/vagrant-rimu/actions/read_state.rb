@@ -7,12 +7,12 @@ module VagrantPlugins
         def initialize(app, env)
           @app = app
           @machine = env[:machine]
-          @client = env[:rimu_api]
           @logger = Log4r::Logger.new('vagrant_rimu::action::read_state')
         end
 
         def call(env)
-          env[:machine_state] = read_state(@client, @machine)
+          client = env[:rimu_api]
+          env[:machine_state] = read_state(client, @machine)
           @logger.info "Machine state is '#{env[:machine_state]}'"
           @app.call(env)
         end

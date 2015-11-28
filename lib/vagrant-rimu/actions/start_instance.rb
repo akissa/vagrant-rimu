@@ -6,15 +6,15 @@ module VagrantPlugins
       class StartInstance
         def initialize(app, env)
           @app = app
-          @client = env[:rimu_api]
           @machine = env[:machine]
           @logger = Log4r::Logger.new("vagrant_rimu::action::start_instance")
         end
 
         def call(env)
+          client = env[:rimu_api]
           env[:ui].info I18n.t('vagrant_rimu.starting')
           begin
-            result = @client.servers.start(@machine.id.to_i)
+            result = client.servers.start(@machine.id.to_i)
             raise StandardError, "No response from the API" if result.nil?
             raise StandardError, "VPS is not be running" if result.running_state != 'RUNNING'
           rescue StandardError => e

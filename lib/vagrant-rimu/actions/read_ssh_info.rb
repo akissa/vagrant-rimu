@@ -9,12 +9,12 @@ module VagrantPlugins
         def initialize(app, env)
           @app = app
           @machine = env[:machine]
-          @client = env[:rimu_api]
           @logger = Log4r::Logger.new("vagrant_rimu::action::read_ssh_info")
         end
 
         def call(env)
-          env[:machine_ssh_info] = read_ssh_info(@client, @machine)
+          client = env[:rimu_api]
+          env[:machine_ssh_info] = read_ssh_info(client, @machine)
 
           @app.call(env)
         end
