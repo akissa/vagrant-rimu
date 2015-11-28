@@ -35,25 +35,6 @@ en:
             private_key: "A valid SSH private key path option: [private_key_path] is required"
             missing_private_key: "SSH private key not found: %{key}"
             public_key: "SSH public key not found: %{key}"
-        errors:
-            api_error: |-
-                The API request failed. Please inspect the error message
-                below for more info.
-
-                Error: %{stderr}
-            public_key: |-
-                There was an issue reading the public key at:
-
-                Path: %{path}
-
-                Please check the file's permissions.
-            rsync: |-
-                There was an error when attemping to rsync a share folder.
-                Please inspect the error message below for more info.
-
-                Host path: %{hostpath}
-                Guest path: %{guestpath}
-                Error: %{stderr}
         states:
           short_not_created: |-
             not created
@@ -77,3 +58,53 @@ en:
           long_running: |-
             The VPS is running. To stop this machine, you can run
             `vagrant halt`. To destroy the machine, you can run `vagrant destroy`.
+        commands:
+            root_synopsis: |-
+                Rimu provider specific commands
+            root_usage: |-
+                Usage: vagrant rimu <subcommand> [<args>]
+            available_subcommands: |-
+                Available subcommands:
+            billing_methods: |-
+                List billing methods
+            list_distributions: |-
+                List Distributions
+            list_servers: |-
+                List servers
+            move: |-
+                Moves server to different host
+            rebuild: |-
+                Rebuilds the server, retaining the current IP address
+        errors:
+            global_error: |-
+                An unknown error happened in Vagrant Rimu provider
+
+                To easily debug what happened, we recommend to set the environment
+                variable VAGRANT_RIMU_LOG to debug
+
+                  $ export VAGRANT_RIMU_LOG=debug
+
+                If doing this does not help fixing your issue, there may be a bug
+                in the provider. Please submit an issue on Github at
+                https://github.com/akissa/vagrant-rimu
+                with the stracktrace and the logs.
+            no_args: |-
+                Command '%{cmd}' does not required any argument.
+            api_error: |-
+                The API request failed. Please inspect the error message
+                below for more info.
+
+                Error: %{stderr}
+            public_key: |-
+                There was an issue reading the public key at:
+
+                Path: %{path}
+
+                Please check the file permissions.
+            rsync: |-
+                There was an error when attemping to rsync a share folder.
+                Please inspect the error message below for more info.
+
+                Host path: %{hostpath}
+                Guest path: %{guestpath}
+                Error: %{stderr}
