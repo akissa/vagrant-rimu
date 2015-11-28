@@ -14,6 +14,7 @@ module VagrantPlugins
           @logger = Log4r::Logger.new('vagrant::rimu::create')
         end
 
+        # rubocop:disable Metrics/AbcSize
         def execute(env)
           client = env[:rimu_api]
           env[:ui].info I18n.t('vagrant_rimu.creating')
@@ -72,6 +73,7 @@ module VagrantPlugins
           @machine.config.ssh.username = user
           @app.call(env)
         end
+        # rubocop:enable Metrics/AbcSize
 
         def recover(env)
           return if env['vagrant.error'].is_a?(Vagrant::Errors::VagrantError)

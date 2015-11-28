@@ -20,10 +20,20 @@ module VagrantPlugins
           user = @machine.config.ssh.username
           @machine.config.ssh.username = 'root'
 
+          # modify the sudoers file
+          modify_sudo(env)
+          
+          # reset ssh username
+          @machine.config.ssh.username = user
+
+          @app.call(env)
+        end
+        
+        def modify_sudo(env)
           # check for guest name available in Vagrant 1.2 first
           guest_name = @machine.guest.name if @machine.guest.respond_to?(:name)
           guest_name ||= @machine.guest.to_s.downcase
-
+          
           case guest_name
           when /redhat/
             env[:ui].info I18n.t('vagrant_rimu.modifying_sudo')
@@ -33,11 +43,6 @@ module VagrantPlugins
               sed -i'.bk' -e 's/\(Defaults\s\+requiretty\)/# \1/' /etc/sudoers
             BASH
           end
-
-          # reset ssh username
-          @machine.config.ssh.username = user
-
-          @app.call(env)
         end
       end
     end

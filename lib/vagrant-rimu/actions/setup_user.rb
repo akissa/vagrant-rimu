@@ -23,11 +23,40 @@ module VagrantPlugins
           user = @machine.config.ssh.username
           @machine.config.ssh.username = 'root'
 
+          # create user account
+          create_user(env, user)
+
+          # create the .ssh directory in the users home
+          @machine.communicate.execute("su #{user} -c 'mkdir -p ~/.ssh'")
+
+          # add the specified key to the authorized keys file
+          upload_key(user)
+
+          # reset username
+          @machine.config.ssh.username = user
+
+          @app.call(env)
+        end
+        
+        def upload_key(user)
+          path = @machine.config.ssh.private_key_path
+          path = path[0] if path.is_a?(Array)
+          path = File.expand_path(path, @machine.env.root_path)
+          pub_key = public_key(path)
+          @machine.communicate.execute(<<-BASH)
+            if ! grep '#{pub_key}' /home/#{user}/.ssh/authorized_keys; then
+              echo '#{pub_key}' >> /home/#{user}/.ssh/authorized_keys;
+            fi
+
+            chown -R #{user} /home/#{user}/.ssh;
+          BASH
+        end
+        
+        def create_user(env, user)
           env[:ui].info I18n.t('vagrant_rimu.creating_user', {
             :user => user
           })
-
-          # create user account
+          
           @machine.communicate.execute(<<-BASH)
             if ! (grep ^#{user}: /etc/passwd); then
               useradd -m -s /bin/bash #{user};
@@ -42,27 +71,6 @@ module VagrantPlugins
               sed -i -e "/#{user}/ s/=.*/=(ALL:ALL) NOPASSWD: ALL/" /etc/sudoers;
             fi
           BASH
-
-          # create the .ssh directory in the users home
-          @machine.communicate.execute("su #{user} -c 'mkdir -p ~/.ssh'")
-
-          # add the specified key to the authorized keys file
-          path = @machine.config.ssh.private_key_path
-          path = path[0] if path.is_a?(Array)
-          path = File.expand_path(path, @machine.env.root_path)
-          pub_key = public_key(path)
-          @machine.communicate.execute(<<-BASH)
-            if ! grep '#{pub_key}' /home/#{user}/.ssh/authorized_keys; then
-              echo '#{pub_key}' >> /home/#{user}/.ssh/authorized_keys;
-            fi
-
-            chown -R #{user} /home/#{user}/.ssh;
-          BASH
-
-          # reset username
-          @machine.config.ssh.username = user
-
-          @app.call(env)
         end
         
         def public_key(private_key_path)

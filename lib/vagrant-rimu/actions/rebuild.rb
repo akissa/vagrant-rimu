@@ -12,9 +12,11 @@ module VagrantPlugins
           @logger = Log4r::Logger.new('vagrant::rimu::rebuild')
         end
 
+        # rubocop:disable Metrics/AbcSize
         def execute(env)
           client = env[:rimu_api]
           env[:ui].info I18n.t('vagrant_rimu.rebuilding')
+          
           params = {
             :instantiation_options => {
                 :domain_name => @machine.provider_config.host_name,
@@ -35,7 +37,9 @@ module VagrantPlugins
           }
           params.delete(:instantiation_via_clone_options) if @machine.provider_config.vps_to_clone.nil?
           params.delete(:instantiation_options) if params.has_key?(:instantiation_via_clone_options)
+
           client.servers.reinstall(@machine.id.to_i, params)
+          
           switch_user = @machine.provider_config.setup?
           user = @machine.config.ssh.username
           @machine.config.ssh.username = 'root' if switch_user
@@ -44,6 +48,7 @@ module VagrantPlugins
             raise 'not ready' if !@machine.communicate.ready?
           end
           @machine.config.ssh.username = user
+          
           @app.call(env)
         end
       end

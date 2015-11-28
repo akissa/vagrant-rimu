@@ -137,6 +137,7 @@ module VagrantPlugins
         @data_centre = UNSET_VALUE
       end
 
+      # rubocop:disable Metrics/AbcSize
       def finalize!
         @api_key = ENV['RIMU_API_KEY'] if @api_key == UNSET_VALUE
         @api_url = ENV['RIMU_URL'] if @api_url == UNSET_VALUE

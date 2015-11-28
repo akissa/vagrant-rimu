@@ -4,6 +4,7 @@ require 'vagrant/action/builder'
 
 module VagrantPlugins
   module Rimu
+    # rubocop:disable Metrics/ModuleLength
     module Actions
       include Vagrant::Action::Builtin
 
