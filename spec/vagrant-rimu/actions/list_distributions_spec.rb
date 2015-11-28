@@ -35,10 +35,10 @@ describe VagrantPlugins::Rimu::Actions::ListDistributions do
   describe 'call' do
     it 'return a distribution listing' do
       expect(env[:rimu_api].distributions).to receive(:each)
-      heading = '%-6s %s' % ['Distro Code', 'Distro Description']
+      heading = '%-15s %s' % ['Distro Code', 'Distro Description']
       expect(env[:ui]).to receive(:info).with(heading)
       [distro1, distro2].each do |o|
-        row = '%-6s %s' % [o.distro_code, o.distro_description]
+        row = '%-15s %s' % [o.distro_code, o.distro_description]
         expect(env[:ui]).to receive(:info).with(row)
       end
       expect(app).to receive(:call)
