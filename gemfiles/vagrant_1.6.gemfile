@@ -1,7 +1,10 @@
 source 'https://rubygems.org'
 
-group :development do
-    gem 'vagrant', :git => 'https://github.com/mitchellh/vagrant', :tag => 'v1.6.5'
+gemspec :path => '../'
+
+group :development do  
+  gem 'vagrant', :git => 'https://github.com/mitchellh/vagrant', :tag => 'v1.6.5'
+  gem 'rubocop', '0.29.0', :require => false
 end
 
 group :test do
@@ -14,5 +17,4 @@ end
 group :plugins do
   gem 'bundler', '>= 1.5.2', '< 1.7.0'
   gem 'vagrant-rimu', :path => '../'
-  gemspec :path => '../'
 end

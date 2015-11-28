@@ -1,18 +1,20 @@
 source 'https://rubygems.org'
 
+gemspec :path => '../'
+
 group :development do
-    gem 'vagrant', :git => 'https://github.com/mitchellh/vagrant', :tag => 'v1.7.1'
+  gem 'vagrant', :git => 'https://github.com/mitchellh/vagrant', :tag => 'v1.7.1'
+  gem 'rubocop', '0.29.0', :require => false
 end
 
 group :test do
-    gem 'codecov', :require => false
-    gem 'simplecov', :require => false
-    gem 'coveralls', :require => false
-    gem 'codeclimate-test-reporter', require: false
+  gem 'codecov', :require => false
+  gem 'simplecov', :require => false
+  gem 'coveralls', :require => false
+  gem 'codeclimate-test-reporter', require: false
 end
 
 group :plugins do
-    gem 'bundler', '>= 1.5.2', '< 1.8.0'
-    gem 'vagrant-rimu', :path => '../'
-    gemspec :path => '../'
+  gem 'bundler', '>= 1.5.2', '< 1.8.0'
+  gem 'vagrant-rimu', :path => '../'
 end

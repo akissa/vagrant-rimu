@@ -6,7 +6,7 @@ Vagrant.configure('2') do |config|
 
   config.vm.synced_folder '.', '/vagrant', :disabled => true
 
-  config.vm.provider :rimu do |provider, override|
+  config.vm.provider :rimu do |provider|
     provider.token = ENV['RIMU_API_KEY']
   end
 

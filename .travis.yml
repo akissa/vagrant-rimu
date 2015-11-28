@@ -1,5 +1,5 @@
 language: ruby
-script: bundle exec rspec spec
+script: bundle exec rake
 before_install:
   - rvm @global do gem uninstall bundler --all --force --executables
   - gem uninstall bundler --all --force --executables

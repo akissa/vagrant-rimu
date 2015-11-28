@@ -12,6 +12,7 @@ module VagrantPlugins
           @logger = Log4r::Logger.new('vagrant::rimu::setup_user')
         end
 
+        # rubocop:disable Metrics/AbcSize
         def execute(env)
           # check if setup is enabled
           return @app.call(env) unless @machine.provider_config.setup?
