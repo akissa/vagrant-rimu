@@ -1,16 +1,16 @@
+require 'vagrant-rimu/commands/abstract_command'
+
 module VagrantPlugins
   module Rimu
     module Commands
-      class Move < Vagrant.plugin('2', :command)
-        def execute
-          opts = OptionParser.new do |o|
-            o.banner = 'Usage: vagrant rimu move [options]'
-          end
-          argv = parse_options(opts)
-          return unless argv
-          with_target_vms(argv, provider: :rimu) do |machine|
-            machine.action('move')
-          end
+      class Move < AbstractCommand
+        def self.synopsis
+          I18n.t('vagrant_rimu.commands.move')
+        end
+
+        def cmd(name, argv, env)
+          fail Errors::NoArgRequiredForCommand, cmd: name unless argv.size == 0
+          env[:machine].action('move')
         end
       end
     end

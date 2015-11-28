@@ -1,65 +1,48 @@
-require 'optparse'
-
 module VagrantPlugins
   module Rimu
     module Commands
+      COMMANDS = [
+        { name: :'billing-methods', file: 'billing_methods', clazz: 'BillingMethods' },
+        { name: :'distributions', file: 'distributions', clazz: 'Distributions' },
+        { name: :'servers', file: 'list_servers', clazz: 'ListServers' },
+        { name: :'move-vps', file: 'move', clazz: 'Move' },
+        { name: :'rebuild', file: 'rebuild', clazz: 'Rebuild' },
+      ]
+
       class Root < Vagrant.plugin('2', :command)
         def self.synopsis
-          'query Rimu for various options'
+          I18n.t('vagrant_rimu.command.root_synopsis')
         end
 
         def initialize(argv, env)
+          @env = env
           @main_args, @sub_command, @sub_args = split_main_and_subcommand(argv)
+          @commands = Vagrant::Registry.new
 
-          @subcommands = Vagrant::Registry.new
-
-          @subcommands.register(:distributions) do
-            require File.expand_path('../distributions', __FILE__)
-            Distributions
-          end
-
-          @subcommands.register(:move) do
-            require File.expand_path('../move', __FILE__)
-            Move
-          end
-
-          @subcommands.register(:billing_methods) do
-            require File.expand_path('../billing_methods', __FILE__)
-            BillingMethods
-          end
-
-          @subcommands.register(:servers) do
-            require File.expand_path('../list_servers', __FILE__)
-            ListServers
+          COMMANDS.each do |cmd|
+            @commands.register(cmd[:name]) do
+              require_relative cmd[:file]
+              Commands.const_get(cmd[:clazz])
+            end
           end
 
           super(argv, env)
         end
 
         def execute
-          if @main_args.include?('-h') || @main_args.include?('--help')
-            return help
-          end
-          command_class = @subcommands.get(@sub_command.to_sym) if @sub_command
-          return help if !command_class || !@sub_command
-          @logger.debug("Invoking command class: #{command_class} #{@sub_args.inspect}")
-          command_class.new(@sub_args, @env).execute
+          command_class = @commands.get(@sub_command.to_sym) if @sub_command
+          return usage unless command_class && @sub_command
+          command_class.new(@sub_args, @env).execute(@sub_command)
         end
 
-        def help
-          opts = OptionParser.new do |o|
-            o.banner = 'Usage: vagrant rimu <subcommand> [<args>]'
-            o.separator ''
-            o.separator 'Available subcommands:'
-            keys = []
-            @subcommands.each { |key, _value| keys << key.to_s }
-            keys.sort.each do |key|
-              o.separator "     #{key}"
-            end
-            o.separator ''
-            o.separator 'For help on any individual subcommand run `vagrant rimu <subcommand> -h`'
+        def usage
+          @env.ui.info I18n.t('vagrant_rimu.commands.root_usage')
+          @env.ui.info ''
+          @env.ui.info I18n.t('vagrant_rimu.commands.available_subcommands')
+          @commands.each do |key, value|
+            @env.ui.info "     #{key.to_s.ljust(20)} #{value.synopsis}"
           end
-          @env.ui.info(opts.help, prefix: false)
+          @env.ui.info ''
         end
       end
     end
