@@ -35,7 +35,7 @@ The most basic `Vagrantfile` to create a VPS on Rimu is shown below
 ```ruby
 Vagrant.configure('2') do |config|
 
-  config.vm.provider :rimu do |provider, override|
+  config.vm.provider :rimu do |provider|
     override.ssh.private_key_path = '~/.ssh/id_rsa'
 
     provider.api_key = 'YOUR RIMU API KEY'
