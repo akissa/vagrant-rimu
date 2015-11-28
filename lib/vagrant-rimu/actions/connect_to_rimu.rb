@@ -13,7 +13,7 @@ module VagrantPlugins
 
         def call(env)
           @logger.info('Connecting to Rimu api_url...')
-          rimu = ::Rimu.new({:api_url => @config.api_url, :api_key=> @config.api_key})
+          rimu = ::Rimu::RimuAPI.new({:api_url => @config.api_url, :api_key=> @config.api_key})
           env[:rimu_api] = rimu
           @app.call(env)
         end
