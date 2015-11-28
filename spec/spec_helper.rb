@@ -22,8 +22,6 @@ end
 
 require 'rspec/its'
 
-I18n.load_path << File.expand_path('locales/en.yml', Pathname.new(File.expand_path('../../', __FILE__)))
-
 RSpec.configure do |config|
   config.mock_with :rspec do |c|
     c.syntax = [:should, :expect]
@@ -32,3 +30,7 @@ RSpec.configure do |config|
     c.syntax = [:should, :expect]
   end
 end
+
+I18n.load_path << File.expand_path('locales/en.yml', Pathname.new(File.expand_path('../../', __FILE__)))
+
+VagrantPlugins::Rimu::Logging.init
