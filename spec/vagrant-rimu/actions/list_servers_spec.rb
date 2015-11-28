@@ -37,12 +37,12 @@ describe VagrantPlugins::Rimu::Actions::ListServers do
   describe 'call' do
     it 'return a server listing' do
       expect(env[:rimu_api].orders.orders).to receive(:each)
-      heading = '%-10s %-30s %-20s %-15s %-15s' % ['ID', 'Hostname', 'Data Centre', 'Host Server', 'Status']
-      expect(env[:ui]).to receive(:info).with(heading)
+      rows = []
       [server1, server2].each do |o|
-        row = '%-10s %-30s %-20s %-15s %-15s' % [o.order_oid, o.domain_name, o.location["data_center_location_code"], o.host_server_oid, o.running_state]
-        expect(env[:ui]).to receive(:info).with(row)
+        rows << [o.order_oid, o.domain_name, o.location["data_center_location_code"], o.host_server_oid, o.running_state]
       end
+      table = Terminal::Table.new headings: ['ID', 'Hostname', 'Data Centre', 'Host Server', 'Status'], rows: rows
+      expect(env[:ui]).to receive(:info).with("\n#{table}")
       expect(app).to receive(:call)
       @action = VagrantPlugins::Rimu::Actions::ListServers.new(app, env)
       @action.call(env)

@@ -35,12 +35,12 @@ describe VagrantPlugins::Rimu::Actions::BillingMethods do
   describe 'call' do
     it 'return a billing_methods listing' do
       expect(env[:rimu_api].billing_methods).to receive(:each)
-      heading = '%-20s %-20s %s' % ['ID', 'Type', 'Description']
-      expect(env[:ui]).to receive(:info).with(heading)
+      rows = []
       [method1, method2].each do |b|
-        row = '%-20s %-20s %s' % [b.billing_oid, b.billing_method_type, b.description]
-        expect(env[:ui]).to receive(:info).with(row)
+        rows << [b.billing_oid, b.billing_method_type, b.description]
       end
+      table = Terminal::Table.new headings: ['ID', 'Type', 'Description'], rows: rows
+      expect(env[:ui]).to receive(:info).with("\n#{table}")
       expect(app).to receive(:call)
       @action = VagrantPlugins::Rimu::Actions::BillingMethods.new(app, env)
       @action.call(env)
