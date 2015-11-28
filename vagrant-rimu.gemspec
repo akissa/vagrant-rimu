@@ -19,6 +19,8 @@ Gem::Specification.new do |gem|
   gem.version       = VagrantPlugins::Rimu::VERSION
 
   gem.add_runtime_dependency 'rimu', '~> 0.0.6'
+  gem.add_runtime_dependency 'colorize', '~> 0.7.3'
+  gem.add_runtime_dependency 'terminal-table', '~> 1.4.5'
   gem.add_development_dependency 'bundler', '~> 1.5'
   gem.add_development_dependency 'rspec', '~> 3.1.0'
   gem.add_development_dependency 'rspec-its', '~> 1.0.1'
