@@ -92,7 +92,7 @@ The provider supports the following Vagrant sub-commands:
   Rimu VPS.
 - `vagrant ssh` - Logs into the Rimu VPS using the configured user account.
 - `vagrant rimu` - Moves a VPS to a different host and provides info on
-  distributions, servers and billing_methods
+  `distributions`, `servers` and `billing methods`
 
 ## Contributing
 
