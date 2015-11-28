@@ -12,10 +12,28 @@ module VagrantPlugins
           @logger = Log4r::Logger.new('vagrant::rimu::move')
         end
 
+        # rubocop:disable Metrics/AbcSize
         def execute(env)
           client = env[:rimu_api]
+
           env[:ui].info I18n.t('vagrant_rimu.move')
-          fail 'not implemented'
+
+          result = client.servers.move(@machine.id.to_i)
+
+          @machine.id = result.order_oid
+          env[:ui].info I18n.t('vagrant_rimu.ip_address', {:ip => result.allocated_ips["primary_ip"]})
+
+          switch_user = @machine.provider_config.setup?
+          user = @machine.config.ssh.username
+          @machine.config.ssh.username = 'root' if switch_user
+
+          retryable(:tries => 120, :sleep => 10) do
+            next if env[:interrupted]
+            raise 'not ready' if !@machine.communicate.ready?
+          end
+
+          @machine.config.ssh.username = user
+
           @app.call(env)
         end
       end
