@@ -236,7 +236,7 @@ module VagrantPlugins
       private
 
       def self.new_builder
-        new_builder
+        Vagrant::Action::Builder.new
       end
     end
   end
