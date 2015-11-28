@@ -18,6 +18,10 @@ module VagrantPlugins
       class ApiError < RimuError
         error_key(:api_error)
       end
+
+      class NoArgRequiredForCommand < RimuError
+        error_key(:no_args)
+      end
     end
   end
 end
