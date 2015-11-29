@@ -19,9 +19,13 @@ module VagrantPlugins
         def execute(env)
           client = env[:rimu_api]
 
-          env[:ui].info I18n.t('vagrant_rimu.move')
+          env[:ui].info I18n.t('vagrant_rimu.moving')
 
-          result = client.servers.move(@machine.id.to_i)
+          begin
+            result = client.servers.move(@machine.id.to_i)
+          rescue ::Rimu::RimuAPI::RimuRequestError, ::Rimu::RimuAPI::RimuResponseError => e
+            raise Errors::ApiError, {:stderr=>e}
+          end
 
           @machine.id = result.order_oid
           env[:ui].info I18n.t('vagrant_rimu.ip_address', {:ip => result.allocated_ips["primary_ip"]})

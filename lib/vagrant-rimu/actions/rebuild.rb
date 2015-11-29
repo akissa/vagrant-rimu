@@ -38,7 +38,11 @@ module VagrantPlugins
           params.delete(:instantiation_via_clone_options) if @machine.provider_config.vps_to_clone.nil?
           params.delete(:instantiation_options) if params.has_key?(:instantiation_via_clone_options)
 
-          client.servers.reinstall(@machine.id.to_i, params)
+          begin
+            client.servers.reinstall(@machine.id.to_i, params)
+          rescue ::Rimu::RimuAPI::RimuRequestError, ::Rimu::RimuAPI::RimuResponseError => e
+            raise Errors::ApiError, {:stderr=>e}
+          end
           
           switch_user = @machine.provider_config.setup?
           user = @machine.config.ssh.username

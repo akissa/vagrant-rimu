@@ -56,9 +56,16 @@ module VagrantPlugins
           if params.has_key?(:instantiation_options)
             params[:instantiation_options][:password] = root_pass
           end
-          result = client.servers.create(params)
+
+          begin
+            result = client.servers.create(params)
+          rescue ::Rimu::RimuAPI::RimuRequestError, ::Rimu::RimuAPI::RimuResponseError => e
+            raise Errors::ApiError, {:stderr=>e}
+          end
+
           @machine.id = result.order_oid
           env[:ui].info I18n.t('vagrant_rimu.ip_address', {:ip => result.allocated_ips["primary_ip"]})
+
           switch_user = @machine.provider_config.setup?
           user = @machine.config.ssh.username
           if switch_user
@@ -72,6 +79,7 @@ module VagrantPlugins
             end
           end
           @machine.config.ssh.username = user
+
           @app.call(env)
         end
         # rubocop:enable Metrics/AbcSize
