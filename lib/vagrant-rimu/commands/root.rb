@@ -11,7 +11,7 @@ module VagrantPlugins
 
       class Root < Vagrant.plugin('2', :command)
         def self.synopsis
-          I18n.t('vagrant_rimu.command.root_synopsis')
+          I18n.t('vagrant_rimu.commands.root_synopsis')
         end
 
         def initialize(argv, env)
