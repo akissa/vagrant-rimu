@@ -1,4 +1,5 @@
 require 'log4r'
+require 'vagrant'
 
 require 'vagrant-rimu/actions/abstract_action'
 
@@ -6,6 +7,8 @@ module VagrantPlugins
   module Rimu
     module Actions
       class Move < AbstractAction
+        include Vagrant::Util::Retryable
+
         def initialize(app, env)
           @app = app
           @machine = env[:machine]
