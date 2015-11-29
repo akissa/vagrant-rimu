@@ -203,10 +203,17 @@ module VagrantPlugins
       end
 
       def self.action_move
-        new_builder.tap do |b|
-          b.use ConfigValidate
-          b.use ConnectToRimu
-          b.use Move
+        return new_builder.tap do |builder|
+          builder.use ConfigValidate
+          builder.use ConnectToRimu
+          builder.use Call, IsCreated do |env, b|
+            case env[:machine_state]
+            when :active, :off
+              b.use Move
+            when :not_created
+              b.use MessageNotCreated
+            end
+          end
         end
       end
 
