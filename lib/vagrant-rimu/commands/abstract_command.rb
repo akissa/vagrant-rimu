@@ -24,7 +24,7 @@ module VagrantPlugins
         rescue Errors::ApiError, SystemExit, Interrupt => e
           raise e
         rescue Exception => e
-          puts I18n.t('vagrant_rimu.errors.global_error').red unless e.message && e.message.start_with?('Catched Error:')
+          puts I18n.t('vagrant_rimu.errors.global_error').red unless e.message
           raise e
         end
         # rubocop:enable Lint/RescueException
