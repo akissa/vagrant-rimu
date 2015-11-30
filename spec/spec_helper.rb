@@ -4,7 +4,7 @@ if ENV['CI']=='true'
   require 'codecov'
   require 'coveralls'
   require 'codeclimate-test-reporter'
-  SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter[
+  SimpleCov.formatters = [
       SimpleCov::Formatter::HTMLFormatter,
       Coveralls::SimpleCov::Formatter,
       SimpleCov::Formatter::Codecov,
