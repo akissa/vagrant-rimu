@@ -16,7 +16,7 @@ module VagrantPlugins
           # check if provisioning is enabled
           enabled = true
           enabled = env[:provision_enabled] if env.has_key?(:provision_enabled)
-          return @app.call(env) if !enabled
+          return @app.call(env) unless enabled
 
           username = @machine.ssh_info()[:username]
 

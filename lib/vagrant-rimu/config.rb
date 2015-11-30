@@ -165,8 +165,8 @@ module VagrantPlugins
 
       def validate(machine)
         errors = []
-        errors << I18n.t('vagrant_rimu.config.api_key') if !@api_key
-        errors << I18n.t('vagrant_rimu.config.host_name') if !@host_name
+        errors << I18n.t('vagrant_rimu.config.api_key') unless @api_key
+        errors << I18n.t('vagrant_rimu.config.host_name') unless @host_name
         if @host_name
           errors << I18n.t('vagrant_rimu.config.invalid_host_name', {:host_name => @host_name}) \
             unless @host_name.match(/\b((?=[a-z0-9-]{1,63}\.)(xn--)?[a-z0-9]+(-[a-z0-9]+)*\.)+[a-z]{2,63}\b/)

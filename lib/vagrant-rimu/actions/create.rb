@@ -75,7 +75,7 @@ module VagrantPlugins
           if params.has_key?(:instantiation_options)
             retryable(:tries => 120, :sleep => 10) do
               next if env[:interrupted]
-              raise 'not ready' if !@machine.communicate.ready?
+              raise 'not ready' unless @machine.communicate.ready?
             end
           end
           @machine.config.ssh.username = user

@@ -49,7 +49,7 @@ module VagrantPlugins
           @machine.config.ssh.username = 'root' if switch_user
           retryable(:tries => 120, :sleep => 10) do
             next if env[:interrupted]
-            raise 'not ready' if !@machine.communicate.ready?
+            raise 'not ready' unless @machine.communicate.ready?
           end
           @machine.config.ssh.username = user
           
