@@ -37,6 +37,14 @@ module VagrantPlugins
           }
           params.delete(:instantiation_via_clone_options) if @machine.provider_config.vps_to_clone.nil?
           params.delete(:instantiation_options) if params.has_key?(:instantiation_via_clone_options)
+          if @machine.provider_config.root_password
+            root_pass = @machine.provider_config.root_password
+          else
+            root_pass = Digest::SHA2.new.update(@machine.provider_config.api_key).to_s
+          end
+          if params.has_key?(:instantiation_options)
+            params[:instantiation_options][:password] = root_pass
+          end
 
           begin
             client.servers.reinstall(@machine.id.to_i, params)
@@ -46,7 +54,10 @@ module VagrantPlugins
           
           switch_user = @machine.provider_config.setup?
           user = @machine.config.ssh.username
-          @machine.config.ssh.username = 'root' if switch_user
+          if switch_user
+            @machine.config.ssh.username = 'root'
+            @machine.config.ssh.password = root_pass
+          end
           retryable(:tries => 120, :sleep => 10) do
             next if env[:interrupted]
             raise 'not ready' unless @machine.communicate.ready?
