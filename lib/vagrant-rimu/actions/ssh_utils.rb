@@ -15,14 +15,14 @@ module VagrantPlugins
                 mkdir /root/.ssh;
                 chmod 0700 /root/.ssh;
               fi
-              if ! grep '#{pub_key}' /root/.ssh/authorized_keys; then
-                echo '#{pub_key}' >> /root/.ssh/authorized_keys;
+              if ! grep '#{pub_key.chomp!}' /root/.ssh/authorized_keys; then
+                echo '#{pub_key.chomp!}' >> /root/.ssh/authorized_keys;
               fi
             BASH
           else
             env[:machine].communicate.execute(<<-BASH)
-              if ! grep '#{pub_key}' /home/#{user}/.ssh/authorized_keys; then
-                echo '#{pub_key}' >> /home/#{user}/.ssh/authorized_keys;
+              if ! grep '#{pub_key.chomp!}' /home/#{user}/.ssh/authorized_keys; then
+                echo '#{pub_key.chomp!}' >> /home/#{user}/.ssh/authorized_keys;
               fi
 
               chown -R #{user} /home/#{user}/.ssh;
