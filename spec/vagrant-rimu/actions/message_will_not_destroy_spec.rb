@@ -1,5 +1,4 @@
 require 'ostruct'
-require 'pathname'
 
 require 'spec_helper'
 
