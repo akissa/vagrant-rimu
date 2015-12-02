@@ -40,14 +40,14 @@ matrix:
     #   rvm: 2.2.1
     #   env:
     #       BUNDLER_VERSION='= 1.5.2'
-    - gemfile: gemfiles/vagrant_1.5.gemfile
-      rvm: 2.1.4
-      env:
-          BUNDLER_VERSION='= 1.5.2'
-    - gemfile: gemfiles/vagrant_1.5.gemfile
-      rvm: 2.0.0
-      env:
-          BUNDLER_VERSION='= 1.5.2'
+    # - gemfile: gemfiles/vagrant_1.5.gemfile
+    #   rvm: 2.1.4
+    #   env:
+    #       BUNDLER_VERSION='= 1.5.2'
+    # - gemfile: gemfiles/vagrant_1.5.gemfile
+    #   rvm: 2.0.0
+    #   env:
+    #       BUNDLER_VERSION='= 1.5.2'
 
 notifications:
   email:
