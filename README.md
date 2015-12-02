@@ -35,7 +35,8 @@ The most basic `Vagrantfile` to create a VPS on Rimu is shown below
 ```ruby
 Vagrant.configure('2') do |config|
 
-  config.vm.provider :rimu do |provider|
+  config.vm.provider :rimu do |provider, override|
+    override.ssh.insert_key = true
     override.ssh.private_key_path = '~/.ssh/id_rsa'
 
     provider.api_key = 'YOUR RIMU API KEY'
@@ -91,8 +92,15 @@ The provider supports the following Vagrant sub-commands:
 - `vagrant status` - Outputs the status (active, off, not created) for the
   Rimu VPS.
 - `vagrant ssh` - Logs into the Rimu VPS using the configured user account.
-- `vagrant rimu` - Moves a VPS to a different host and provides info on
-  `distributions`, `servers` and `billing methods`
+- `vagrant rimu` - Rimu provider specific commands
+
+**Rimu Specific Commands**
+
+The Rimu specific commands are available as sub commands of `vagrant rimu`.
+The following `vagrant rimu` command provides the following sub commands:
+- `distributions` - Lists the distributions supported.
+- `servers` - Lists the servers under your account.
+- `billing methods` - Lists the billing methods setup for your account.
 
 ## Contributing
 
