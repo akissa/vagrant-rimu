@@ -215,6 +215,20 @@ module VagrantPlugins
         end
       end
 
+      def self.action_suspend
+        new_builder.tap do |b|
+          b.use ConfigValidate
+          b.use MessageActionNotSupported
+        end
+      end
+
+      def self.action_resume
+        new_builder.tap do |b|
+          b.use ConfigValidate
+          b.use MessageActionNotSupported
+        end
+      end
+
       action_root = Pathname.new(File.expand_path('../actions', __FILE__))
       autoload :ConnectToRimu, action_root.join('connect_to_rimu')
       autoload :StopInstance, action_root.join('stop_instance')
@@ -239,6 +253,7 @@ module VagrantPlugins
       autoload :MessageWillNotDestroy, action_root.join('message_will_not_destroy')
       autoload :MessageAlreadyCreated, action_root.join('message_already_created')
       autoload :MessageWillNotStop, action_root.join('message_will_not_stop')
+      autoload :MessageActionNotSupported, action_root.join('message_action_not_supported')
       
       private
 

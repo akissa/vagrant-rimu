@@ -31,6 +31,7 @@ en:
             Assigned IP address: %{ip}
         creating_user: "Creating user account: %{user}..."
         modifying_sudo: "Modifying sudoers file to remove tty requirement..."
+        action_not_supported: "The requested command is not supported by this provider"
         reloading: "Rebooting the VPS..."
         rebuilding: "Rebuilding the VPS..."
         config:
