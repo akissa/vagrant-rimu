@@ -21,7 +21,7 @@ module VagrantPlugins
           cmd(name, @argv, env)
           @env.ui.info('')
         # rubocop:disable Lint/RescueException
-        rescue Errors::ApiError, SystemExit, Interrupt => e
+        rescue Errors::RimuError, SystemExit, Interrupt => e
           raise e
         rescue Exception => e
           puts I18n.t('vagrant_rimu.errors.global_error').red unless e.message
