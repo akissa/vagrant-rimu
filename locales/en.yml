@@ -48,7 +48,11 @@ en:
             The VPS is starting.
           short_stopped: |-
             stopped
+          short_off: |-
+            stopped
           long_stopped: |-
+            The VPS is stopped. Run `vagrant up` to start it.
+          long_off: |-
             The VPS is stopped. Run `vagrant up` to start it.
           short_stopping: |-
             stopping
@@ -57,9 +61,16 @@ en:
             run `vagrant up` and start it.
           short_running: |-
             running
+          short_active: |-
+            running
           long_running: |-
             The VPS is running. To stop this machine, you can run
             `vagrant halt`. To destroy the machine, you can run `vagrant destroy`.
+          long_active: |-
+            The VPS is running. To stop this machine, you can run
+            `vagrant halt`. To destroy the machine, you can run `vagrant destroy`.
+          current_state: |-
+            Machine state is `%{state}`
         commands:
             root_synopsis: |-
                 Rimu provider specific commands
