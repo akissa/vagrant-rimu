@@ -11,19 +11,19 @@ module VagrantPlugins
       # This action is called to terminate the remote machine.
       def self.action_destroy
         new_builder.tap do |b|
-          b.use Call, DestroyConfirm do |env, b2|
+          b.use Call, DestroyConfirm do |env, b1|
             if env[:result]
-              b2.use ConfigValidate
-              b.use Call, IsCreated do |env2, b3|
-                if !env2[:result]
-                  b3.use MessageNotCreated
-                  next
+              b1.use ConfigValidate
+              b1.use ConnectToRimu
+              b1.use Call, ReadState do |env1, b2|
+                if env1[:machine_state] == :not_created
+                  b2.use MessageNotCreated
+                else
+                  b2.use TerminateInstance
                 end
               end
-              b2.use ConnectToRimu
-              b2.use TerminateInstance
             else
-              b2.use MessageWillNotDestroy
+              b1.use MessageWillNotDestroy
             end
           end
         end
@@ -41,7 +41,7 @@ module VagrantPlugins
       end
 
       # This action is called to read the state of the machine. The
-      # resulting state is expected to be put into the `:machine_state_id`
+      # resulting state is expected to be put into the `:machine_state`
       # key.
       def self.action_read_state
         new_builder.tap do |b|
@@ -55,13 +55,13 @@ module VagrantPlugins
       def self.action_ssh
         new_builder.tap do |b|
           b.use ConfigValidate
-          b.use Call, IsCreated do |env, b2|
-            if !env[:result]
-              b2.use MessageNotCreated
-              next
+          b.use ConnectToRimu
+          b.use Call, ReadState do |env, b1|
+            if env[:machine_state] == :not_created
+              b1.use MessageNotCreated
+            else
+              b1.use SSHExec
             end
-
-            b2.use SSHExec
           end
         end
       end
@@ -69,53 +69,53 @@ module VagrantPlugins
       def self.action_ssh_run
         new_builder.tap do |b|
           b.use ConfigValidate
-          b.use Call, IsCreated do |env, b2|
-            if !env[:result]
-              b2.use MessageNotCreated
-              next
+          b.use ConnectToRimu
+          b.use Call, ReadState do |env, b1|
+            if env[:machine_state] == :not_created
+              b1.use MessageNotCreated
+            else
+              b1.use SSHRun
             end
-
-            b2.use SSHRun
           end
         end
       end
 
       # This action is called when `vagrant provision` is called.
       def self.action_provision
-        return new_builder.tap do |builder|
-          builder.use ConfigValidate
-          builder.use ConnectToRimu
-          builder.use Call, IsCreated do |env, b|
+        new_builder.tap do |b|
+          b.use ConfigValidate
+          b.use ConnectToRimu
+          b.use Call, ReadState do |env, b1|
             case env[:machine_state]
             when :active
-              b.use Provision
-              b.use ModifyProvisionPath
-              b.use SyncedFolders
+              b1.use Provision
+              b1.use ModifyProvisionPath
+              b1.use SyncedFolders
             when :off
               env[:ui].info I18n.t('vagrant_rimu.off')
             when :not_created
-              b.use MessageNotCreated
+              b1.use MessageNotCreated
             end
           end
         end
       end
 
       def self.action_up
-        return new_builder.tap do |builder|
-          builder.use ConfigValidate
-          builder.use ConnectToRimu
-          builder.use Call, IsCreated do |env, b|
+        new_builder.tap do |b|
+          b.use ConfigValidate
+          b.use ConnectToRimu
+          b.use Call, ReadState do |env, b1|
             case env[:machine_state]
-            when :active
-              b.use MessageAlreadyCreated
-            when :off
-              b.use StartInstance
-              b.use action_provision
             when :not_created
-              b.use Create
-              b.use SetupSudo
-              b.use SetupUser
-              b.use action_provision
+              b1.use Create
+              b1.use SetupSudo
+              b1.use SetupUser
+              b1.use action_provision
+            when :off
+              b1.use StartInstance
+              b1.use action_provision
+            else
+              b1.use MessageAlreadyCreated
             end
           end
         end
@@ -123,56 +123,53 @@ module VagrantPlugins
 
       # This action is called to halt the remote machine.
       def self.action_halt
-        new_builder.tap do |builder|
-          builder.use ConfigValidate
-          builder.use Call, IsCreated do |env, b1|
-            if env[:result]
-              b1.use Call, IsStopped do |env2, b2|
-                if env2[:result]
-                  b2.use MessageAlreadyOff
-                else
-                  b2.use ConnectToRimu
-                  b2.use PowerOff
-                end
-              end
-            else
-              b1.use MessageNotCreated
+        new_builder.tap do |b|
+          b.use ConfigValidate
+          b.use ConnectToRimu
+          b.use Call, ReadState do |env, b1|
+            case env[:machine_state]
+              when :not_created
+                b1.use MessageNotCreated
+              when :off
+                b1.use MessageAlreadyOff
+              else
+                b1.use StopInstance
             end
           end
         end
       end
 
       def self.action_reload
-        return new_builder.tap do |builder|
-          builder.use ConfigValidate
-          builder.use ConnectToRimu
-          builder.use Call, IsCreated do |env, b|
+        new_builder.tap do |b|
+          b.use ConfigValidate
+          b.use ConnectToRimu
+          b.use Call, ReadState do |env, b1|
             case env[:machine_state]
-            when :active
-              b.use Reload
-              b.use action_provision
+            when :not_created
+              b1.use MessageNotCreated
             when :off
               env[:ui].info I18n.t('vagrant_rimu.off')
-            when :not_created
-              b.use MessageNotCreated
+            else
+              b1.use Reload
+              b1.use action_provision
             end
           end
         end
       end
 
       def self.action_rebuild
-        return new_builder.tap do |builder|
-          builder.use ConfigValidate
-          builder.use ConnectToRimu
-          builder.use Call, IsCreated do |env, b|
+        new_builder.tap do |b|
+          b.use ConfigValidate
+          b.use ConnectToRimu
+          b.use Call, ReadState do |env, b1|
             case env[:machine_state]
             when :active, :off
-              b.use Rebuild
-              b.use SetupSudo
-              b.use SetupUser
-              b.use action_provision
+              b1.use Rebuild
+              b1.use SetupSudo
+              b1.use SetupUser
+              b1.use action_provision
             when :not_created
-              b.use MessageNotCreated
+              b1.use MessageNotCreated
             end
           end
         end
@@ -203,15 +200,15 @@ module VagrantPlugins
       end
 
       def self.action_move
-        return new_builder.tap do |builder|
-          builder.use ConfigValidate
-          builder.use ConnectToRimu
-          builder.use Call, IsCreated do |env, b|
+        new_builder.tap do |b|
+          b.use ConfigValidate
+          b.use ConnectToRimu
+          b.use Call, ReadState do |env, b1|
             case env[:machine_state]
             when :active, :off
-              b.use Move
+              b1.use Move
             when :not_created
-              b.use MessageNotCreated
+              b1.use MessageNotCreated
             end
           end
         end
@@ -221,8 +218,8 @@ module VagrantPlugins
       autoload :ConnectToRimu, action_root.join('connect_to_rimu')
       autoload :StopInstance, action_root.join('stop_instance')
       autoload :TerminateInstance, action_root.join('terminate_instance')
-      autoload :IsCreated, action_root.join('is_created')
-      autoload :IsStopped, action_root.join('is_stopped')
+      # autoload :IsCreated, action_root.join('is_created')
+      # autoload :IsStopped, action_root.join('is_stopped')
       autoload :ReadSSHInfo, action_root.join('read_ssh_info')
       autoload :ReadState, action_root.join('read_state')
       autoload :StartInstance, action_root.join('start_instance')
