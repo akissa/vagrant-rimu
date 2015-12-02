@@ -16,8 +16,12 @@ module VagrantPlugins
           if env[:machine].id
             env[:ui].info(I18n.t("vagrant_rimu.terminating"))
             client = env[:rimu_api]
-            client.servers.cancel(env[:machine].id.to_i)
-            env[:machine].id = nil
+            begin
+              client.servers.cancel(env[:machine].id.to_i)
+              env[:machine].id = nil
+            rescue ::Rimu::RimuAPI::RimuRequestError, ::Rimu::RimuAPI::RimuResponseError => e
+              raise Errors::ApiError, {:stderr=>e}
+            end
           end
 
           @app.call(env)

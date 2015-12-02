@@ -25,7 +25,11 @@ module VagrantPlugins
         def shutdown(env)
           env[:ui].info(I18n.t('vagrant_rimu.stopping'))
           client = env[:rimu_api]
-          client.servers.shutdown(env[:machine].id.to_i)
+          begin
+            client.servers.shutdown(env[:machine].id.to_i)
+          rescue ::Rimu::RimuAPI::RimuRequestError, ::Rimu::RimuAPI::RimuResponseError => e
+            raise Errors::ApiError, {:stderr=>e}
+          end
         end
       end
     end
