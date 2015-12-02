@@ -1,5 +1,3 @@
-require 'optparse'
-
 module VagrantPlugins
   module Rimu
     module Commands
@@ -9,11 +7,7 @@ module VagrantPlugins
         end
 
         def execute
-          opts = OptionParser.new do |o|
-            I18n.t('vagrant_rimu.commands.rebuild_usage')
-          end
-          argv = parse_options(opts)
-          with_target_vms(argv) do |machine|
+          with_target_vms(nil, provider: :rimu) do |machine|
             machine.action(:rebuild)
           end
           0
