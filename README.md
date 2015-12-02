@@ -101,6 +101,7 @@ The following `vagrant rimu` command provides the following sub commands:
 - `distributions` - Lists the distributions supported.
 - `servers` - Lists the servers under your account.
 - `billing methods` - Lists the billing methods setup for your account.
+- `move-vps` - Moves your VPS to a different host.
 
 ## Contributing
 
