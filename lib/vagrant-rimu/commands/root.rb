@@ -6,7 +6,7 @@ module VagrantPlugins
         { name: :'distributions', file: 'distributions', clazz: 'Distributions' },
         { name: :'servers', file: 'list_servers', clazz: 'ListServers' },
         { name: :'move-vps', file: 'move', clazz: 'Move' },
-        { name: :'rebuild', file: 'rebuild', clazz: 'Rebuild' },
+        # { name: :'rebuild', file: 'rebuild', clazz: 'Rebuild' },
       ]
 
       class Root < Vagrant.plugin('2', :command)

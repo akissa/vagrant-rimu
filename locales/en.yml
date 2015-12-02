@@ -78,21 +78,23 @@ en:
             Machine state is `%{state}`
         commands:
             root_synopsis: |-
-                Rimu provider specific commands
+              Rimu provider specific commands
             root_usage: |-
-                Usage: vagrant rimu <subcommand> [<args>]
+              Usage: vagrant rimu <subcommand> [<args>]
+            rebuild_usage: |-
+              Usage: vagrant rebuild [vm-name]
             available_subcommands: |-
-                Available subcommands:
+              Available subcommands:
             billing_methods: |-
-                List billing methods
+              List billing methods
             list_distributions: |-
-                List Distributions
+              List Distributions
             list_servers: |-
-                List servers
+              List servers
             move: |-
-                Moves server to different host
+              Moves server to different host
             rebuild: |-
-                Rebuilds the server, retaining the current IP address
+              Rebuilds the server, retaining the current IP address
         errors:
             global_error: |-
                 An unknown error happened in Vagrant Rimu provider

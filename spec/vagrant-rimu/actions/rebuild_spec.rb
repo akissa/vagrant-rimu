@@ -6,6 +6,7 @@ require 'spec_helper'
 
 describe VagrantPlugins::Rimu::Actions::Rebuild do
   let(:ssh) { double('ssh') }
+  let(:root_path) { '.' }
   let(:servers) { double('servers') }
   let(:machine) { double('machine') }
   let(:reinstall) { double('reinstall') }
@@ -44,10 +45,13 @@ describe VagrantPlugins::Rimu::Actions::Rebuild do
         servers.stub(:reinstall) { reinstall }
         os.stub(:servers) { servers }
       end
+      env.stub(:root_path) { root_path }
       machine.stub(:id) { id }
+      machine.stub(:env) { env }
       env[:machine] = machine
       env[:machine].stub(:config) { config }
       env[:machine].stub(:provider_config) { config }
+      communicate.stub(:execute).with(anything)
       communicate.stub(:ready?) { true }
       env[:machine].stub(:communicate) { communicate }
     end
