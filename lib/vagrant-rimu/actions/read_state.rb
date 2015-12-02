@@ -21,7 +21,12 @@ module VagrantPlugins
 
         def read_state(client, machine)
           return :not_created if machine.id.nil?
-          server = client.servers.status(machine.id.to_i)
+          begin
+            server = client.servers.status(machine.id.to_i)
+          rescue ::Rimu::RimuAPI::RimuRequestError, ::Rimu::RimuAPI::RimuResponseError => e
+            @logger.debug(e)
+            return :destroyed
+          end
           return :not_created if server.nil?
           status = server.running_state
           return :not_created if status.nil?
@@ -30,6 +35,7 @@ module VagrantPlugins
             'NOTRUNNING' => :off,
             'RESTARTING' => :shutting_down,
             'POWERCYCLING' => :shutting_down,
+            'DESTROYED' => :destroyed
           }
           states[status.to_s]
         end
