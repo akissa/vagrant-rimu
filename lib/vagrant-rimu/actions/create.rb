@@ -1,6 +1,7 @@
 require 'log4r'
 require 'vagrant'
 
+require 'vagrant-rimu/actions/ssh_utils'
 require 'vagrant-rimu/actions/abstract_action'
 
 module VagrantPlugins
@@ -8,6 +9,7 @@ module VagrantPlugins
     module Actions
       class Create < AbstractAction
         include Vagrant::Util::Retryable
+        include VagrantPlugins::Rimu::Actions::SshUtils
 
         def initialize(app, env)
           @app = app
@@ -78,6 +80,10 @@ module VagrantPlugins
               raise 'not ready' unless @machine.communicate.ready?
             end
           end
+
+          # upload root ssh key
+          upload_key(env)
+
           @machine.config.ssh.username = user
 
           @app.call(env)

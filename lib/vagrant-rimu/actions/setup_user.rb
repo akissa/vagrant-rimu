@@ -1,11 +1,14 @@
 require 'log4r'
 
+require 'vagrant-rimu/actions/ssh_utils'
 require 'vagrant-rimu/actions/abstract_action'
 
 module VagrantPlugins
   module Rimu
     module Actions
       class SetupUser < AbstractAction
+        include VagrantPlugins::Rimu::Actions::SshUtils
+
         def initialize(app, env)
           @app = app
           @machine = env[:machine]
@@ -31,7 +34,7 @@ module VagrantPlugins
           @machine.communicate.execute("su #{user} -c 'mkdir -p ~/.ssh'")
 
           # add the specified key to the authorized keys file
-          upload_key(user)
+          upload_key(env, user)
 
           # reset username
           @machine.config.ssh.username = user
@@ -39,19 +42,19 @@ module VagrantPlugins
           @app.call(env)
         end
         
-        def upload_key(user)
-          path = @machine.config.ssh.private_key_path
-          path = path[0] if path.is_a?(Array)
-          path = File.expand_path(path, @machine.env.root_path)
-          pub_key = public_key(path)
-          @machine.communicate.execute(<<-BASH)
-            if ! grep '#{pub_key}' /home/#{user}/.ssh/authorized_keys; then
-              echo '#{pub_key}' >> /home/#{user}/.ssh/authorized_keys;
-            fi
-
-            chown -R #{user} /home/#{user}/.ssh;
-          BASH
-        end
+        # def upload_key(user)
+        #   path = @machine.config.ssh.private_key_path
+        #   path = path[0] if path.is_a?(Array)
+        #   path = File.expand_path(path, @machine.env.root_path)
+        #   pub_key = public_key(path)
+        #   @machine.communicate.execute(<<-BASH)
+        #     if ! grep '#{pub_key}' /home/#{user}/.ssh/authorized_keys; then
+        #       echo '#{pub_key}' >> /home/#{user}/.ssh/authorized_keys;
+        #     fi
+        #
+        #     chown -R #{user} /home/#{user}/.ssh;
+        #   BASH
+        # end
         
         def create_user(env, user)
           env[:ui].info I18n.t('vagrant_rimu.creating_user', {
@@ -74,11 +77,11 @@ module VagrantPlugins
           BASH
         end
         
-        def public_key(private_key_path)
-          File.read("#{private_key_path}.pub")
-        rescue
-          raise Errors::PublicKeyError, :path => "#{private_key_path}.pub"
-        end
+        # def public_key(private_key_path)
+        #   File.read("#{private_key_path}.pub")
+        # rescue
+        #   raise Errors::PublicKeyError, :path => "#{private_key_path}.pub"
+        # end
       end
     end
   end

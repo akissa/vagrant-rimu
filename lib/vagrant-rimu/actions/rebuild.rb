@@ -1,10 +1,13 @@
 require 'log4r'
 
+require 'vagrant-rimu/actions/ssh_utils'
+
 module VagrantPlugins
   module Rimu
     module Actions
       class Rebuild < AbstractAction
         include Vagrant::Util::Retryable
+        include VagrantPlugins::Rimu::Actions::SshUtils
 
         def initialize(app, env)
           @app = app
@@ -58,10 +61,15 @@ module VagrantPlugins
             @machine.config.ssh.username = 'root'
             @machine.config.ssh.password = root_pass
           end
+
           retryable(:tries => 120, :sleep => 10) do
             next if env[:interrupted]
             raise 'not ready' unless @machine.communicate.ready?
           end
+
+          # upload root ssh key
+          upload_key(env)
+
           @machine.config.ssh.username = user
           
           @app.call(env)
