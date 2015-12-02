@@ -124,18 +124,19 @@ module VagrantPlugins
       # This action is called to halt the remote machine.
       def self.action_halt
         new_builder.tap do |b|
-          b.use ConfigValidate
-          b.use ConnectToRimu
-          b.use Call, ReadState do |env, b1|
-            case env[:machine_state]
-              when :not_created
-                b1.use MessageNotCreated
-              when :off
-                b1.use MessageAlreadyOff
-              else
-                b1.use StopInstance
-            end
-          end
+          b.use MessageWillNotStop
+          # b.use ConfigValidate
+          # b.use ConnectToRimu
+          # b.use Call, ReadState do |env, b1|
+          #   case env[:machine_state]
+          #     when :not_created
+          #       b1.use MessageNotCreated
+          #     when :off
+          #       b1.use MessageAlreadyOff
+          #     else
+          #       b1.use StopInstance
+          #   end
+          # end
         end
       end
 
@@ -237,6 +238,7 @@ module VagrantPlugins
       autoload :MessageNotCreated, action_root.join('message_not_created')
       autoload :MessageWillNotDestroy, action_root.join('message_will_not_destroy')
       autoload :MessageAlreadyCreated, action_root.join('message_already_created')
+      autoload :MessageWillNotStop, action_root.join('message_will_not_stop')
       
       private
 
