@@ -23,6 +23,10 @@ en:
         will_not_destroy: |-
             The VPS '%{name}' will not be destroyed, since the confirmation
             was declined.
+        will_not_stop: |-
+          The VPS '%{name}' will not be stopped, as the Rimu API does not
+          support this action. To stop your VPS run `vagrant ssh` and then
+          `halt` on the VPS console.
         ip_address: |-
             Assigned IP address: %{ip}
         creating_user: "Creating user account: %{user}..."
