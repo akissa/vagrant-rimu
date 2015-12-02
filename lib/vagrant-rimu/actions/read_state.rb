@@ -15,7 +15,7 @@ module VagrantPlugins
         def execute(env)
           client = env[:rimu_api]
           env[:machine_state] = read_state(client, @machine)
-          @logger.info "Machine state is '#{env[:machine_state]}'"
+          @logger.info I18n.t('vagrant_rimu.states.current_state', {:state => env[:machine_state]})
           @app.call(env)
         end
 
