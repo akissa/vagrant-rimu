@@ -33,7 +33,7 @@ module VagrantPlugins
         # key in the environment.
         env = @machine.action("read_state")
 
-        state_id = env[:machine_state_id]
+        state_id = env[:machine_state]
 
         # Get the short and long description
         short = I18n.t("vagrant_rimu.states.short_#{state_id}")
