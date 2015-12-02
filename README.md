@@ -97,7 +97,7 @@ The provider supports the following Vagrant sub-commands:
 **Rimu Specific Commands**
 
 The Rimu specific commands are available as sub commands of `vagrant rimu`.
-The following `vagrant rimu` command provides the following sub commands:
+The `vagrant rimu` command provides the following sub commands:
 - `distributions` - Lists the distributions supported.
 - `servers` - Lists the servers under your account.
 - `billing methods` - Lists the billing methods setup for your account.
