@@ -11,7 +11,7 @@ module VagrantPlugins
         def initialize(app, env)
           @app = app
           @machine = env[:machine]
-          @logger = Log4r::Logger.new("vagrant_rimu::action::read_ssh_info")
+          @logger = Log4r::Logger.new('vagrant_rimu::action::read_ssh_info')
         end
 
         def execute(env)
@@ -34,9 +34,10 @@ module VagrantPlugins
           end
 
           return {
-            :host => server.allocated_ips["primary_ip"],
+            :host => server.allocated_ips['primary_ip'],
             :port => 22,
-            :username => "root"
+            :username => 'root',
+            :private_key_path => machine.config.ssh.private_key_path,
           }
         end
       end
