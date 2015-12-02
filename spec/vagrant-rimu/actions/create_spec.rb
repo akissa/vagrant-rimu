@@ -7,7 +7,7 @@ require 'spec_helper'
 describe VagrantPlugins::Rimu::Actions::Create do
   let(:dup) { double('dup') }
   let(:ssh) { double('ssh') }
-  # let(:action_runner) { double('action_runner') }
+  let(:root_path) { '.' }
   let(:servers) { double('servers') }
   let(:machine) { double('machine') }
   let(:create) { double('create') }
@@ -55,11 +55,14 @@ describe VagrantPlugins::Rimu::Actions::Create do
         servers.stub(:create) { create }
         os.stub(:servers) { servers }
       end
+      env.stub(:root_path) { root_path }
       machine.stub(:id) { id }
       machine.stub(:id=) { id }
+      machine.stub(:env) { env }
       env[:machine] = machine
       env[:machine].stub(:config) { config }
       env[:machine].stub(:provider_config) { config }
+      communicate.stub(:execute).with(anything)
       communicate.stub(:ready?) { true }
       env[:machine].stub(:communicate) { communicate }
       # dup.stub(:delete) { double('delete') }
