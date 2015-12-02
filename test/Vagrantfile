@@ -1,7 +1,9 @@
-Vagrant.require_plugin('vagrant-rimu')
+REQUIRED_PLUGINS = %w(vagrant-rimu)
+abort "Please set the environment variable RIMU_API_KEY in order to run vagrant with the rimu provider" unless ENV.key? 'RIMU_API_KEY'
 
 Vagrant.configure('2') do |config|
   config.ssh.username = 'tester'
+  config.ssh.insert_key = true
   config.ssh.private_key_path = 'test_rimu_id_rsa'
 
   config.vm.synced_folder '.', '/vagrant', :disabled => true
