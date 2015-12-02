@@ -28,7 +28,7 @@ describe VagrantPlugins::Rimu::Actions::IsStopped do
   describe 'call' do
     context 'when server is stopped' do
       it 'returns true' do
-        env[:machine].state.stub(:id) { :stopped }
+        env[:machine].state.stub(:id) { :off }
         expect(app).to receive(:call)
         @action = VagrantPlugins::Rimu::Actions::IsStopped.new(app, env)
         @action.call(env)
@@ -38,7 +38,7 @@ describe VagrantPlugins::Rimu::Actions::IsStopped do
     
     context 'when server is running' do
       it 'returns false' do
-        env[:machine].state.stub(:id) { :running }
+        env[:machine].state.stub(:id) { :active }
         expect(app).to receive(:call)
         @action = VagrantPlugins::Rimu::Actions::IsStopped.new(app, env)
         @action.call(env)

@@ -13,7 +13,7 @@ module VagrantPlugins
         end
 
         def execute(env)
-          if env[:machine].state.id == :stopped
+          if env[:machine].state.id == :off
             env[:ui].info(I18n.t('vagrant_rimu.already_status', :status => env[:machine].state.id))
           else
             shutdown(env)

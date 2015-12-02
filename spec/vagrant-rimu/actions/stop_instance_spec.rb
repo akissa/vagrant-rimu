@@ -33,9 +33,9 @@ describe VagrantPlugins::Rimu::Actions::StopInstance do
   end
 
   describe 'call' do
-    context 'when server state id is not :stopped' do
+    context 'when server state id is not :off' do
       it 'stops the server' do
-        state.stub(:id) { :running }
+        state.stub(:id) { :active }
         env[:machine].stub(:state) { state }
         expect(env[:rimu_api].servers).to receive(:shutdown).with(id.to_i)
         expect(app).to receive(:call)
@@ -43,9 +43,9 @@ describe VagrantPlugins::Rimu::Actions::StopInstance do
         @action.call(env)
       end
     end
-    context 'when server id is :stopped' do
+    context 'when server id is :off' do
       it 'does nothing' do
-        state.stub(:id) { :stopped }
+        state.stub(:id) { :off }
         env[:machine].stub(:state) { state }
         expect(env[:rimu_api].servers).to_not receive(:shutdown)
         expect(app).to receive(:call)

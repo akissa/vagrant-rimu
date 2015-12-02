@@ -28,7 +28,7 @@ describe VagrantPlugins::Rimu::Actions::IsCreated do
   describe 'call' do
     context 'when server is created' do
       it 'returns true' do
-        env[:machine].state.stub(:id) { :stopped }
+        env[:machine].state.stub(:id) { :off }
         expect(app).to receive(:call)
         @action = VagrantPlugins::Rimu::Actions::IsCreated.new(app, env)
         @action.call(env)
