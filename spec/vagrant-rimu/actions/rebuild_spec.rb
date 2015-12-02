@@ -28,6 +28,7 @@ describe VagrantPlugins::Rimu::Actions::Rebuild do
       config.stub(:setup?) { true }
       ssh.stub(:username) { 'rimu' }
       ssh.stub(:username=) { 'rimu' }
+      ssh.stub(:password=).with(anything)
       ssh.stub(:private_key_path) { 'test/test_rimu_id_rsa' }
       config.stub(:ssh) { ssh }
     end
@@ -62,6 +63,7 @@ describe VagrantPlugins::Rimu::Actions::Rebuild do
     context 'when vps_to_clone option is not set' do
       it 'reinstall the server using instantiation_options' do
         # env.stub(:interrupted) { false }
+        root_passwd = Digest::SHA2.new.update('foo').to_s
         expect(env[:machine].provider_config).to receive(:setup?)
         expect(env[:machine].communicate).to receive(:ready?)
         expect(env[:machine].config.ssh).to receive(:username=).with(ssh.username)
@@ -70,7 +72,7 @@ describe VagrantPlugins::Rimu::Actions::Rebuild do
           {
             :instantiation_options=> {
                                       :domain_name=>config.host_name,
-                                      :password=>nil,
+                                      :password=>root_passwd,
                                       :distro=>nil,
                                       :control_panel=>nil
                                       },

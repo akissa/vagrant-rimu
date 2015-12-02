@@ -1,6 +1,7 @@
 require 'spec_helper'
 
 describe VagrantPlugins::Rimu::Actions::ConnectToRimu do
+  let(:rimu_api) { double('rimu_api') }
   let(:app) do
     double.tap do |app|
       app.stub(:call)
@@ -21,7 +22,7 @@ describe VagrantPlugins::Rimu::Actions::ConnectToRimu do
       env[:ui].stub(:warn).with(anything)
       env[:machine] = double('machine')
       env[:machine].stub(:provider_config) { config }
-      env[:rimu_api] = double('rimu_api')
+      env[:rimu_api] = rimu_api
     end
   end
 

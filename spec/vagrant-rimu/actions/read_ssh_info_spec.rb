@@ -5,12 +5,19 @@ require 'spec_helper'
 # autoload :StopInstance, action_root.join('stop_instance')
 
 describe VagrantPlugins::Rimu::Actions::ReadSSHInfo do
+  let(:ssh) { double('ssh') }
   let(:orders) { double('orders') }
   let(:machine) { double('machine') }
   let(:order) { double('order') }
   let(:allocated_ips) { {:primary_ip=>'192.168.1.1'} }
   let(:id) { '200' }
 
+  let(:config) do
+    double.tap do |config|
+      ssh.stub(:private_key_path) { 'test/test_rimu_id_rsa' }
+      config.stub(:ssh) { ssh }
+    end
+  end
 
   let(:env) do
     {}.tap do |env|
@@ -24,6 +31,7 @@ describe VagrantPlugins::Rimu::Actions::ReadSSHInfo do
         os.stub(:orders) { orders }
       end
       machine.stub(:id) { id }
+      machine.stub(:config) { config }
       env[:machine] = machine
     end
   end
