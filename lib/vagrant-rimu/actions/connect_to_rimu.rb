@@ -14,9 +14,13 @@ module VagrantPlugins
         end
 
         def execute(env)
-          @logger.info('Connecting to Rimu api_url...')
-          rimu = ::Rimu::RimuAPI.new({:api_url => @config.api_url, :api_key=> @config.api_key})
-          env[:rimu_api] = rimu
+          if env[:rimu_api].nil? || ! env[:rimu_api].respond_to?(:api_key)
+            @logger.info('Connecting to Rimu api_url...')
+            rimu = ::Rimu::RimuAPI.new({:api_url => @config.api_url, :api_key=> @config.api_key})
+            env[:rimu_api] = rimu
+          else
+            @logger.info('Not creating a new client object...')
+          end
           @app.call(env) unless @app.nil?
         end
       end
