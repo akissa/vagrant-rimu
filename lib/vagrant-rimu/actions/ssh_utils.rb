@@ -4,6 +4,8 @@ module VagrantPlugins
   module Rimu
     module Actions
       module SshUtils
+
+        # rubocop:disable Metrics/AbcSize
         def upload_key(env, user=nil)
           path = env[:machine].config.ssh.private_key_path
           path = path[0] if path.is_a?(Array)
@@ -15,14 +17,14 @@ module VagrantPlugins
                 mkdir /root/.ssh;
                 chmod 0700 /root/.ssh;
               fi
-              if ! grep '#{pub_key.chomp!}' /root/.ssh/authorized_keys; then
-                echo '#{pub_key.chomp!}' >> /root/.ssh/authorized_keys;
+              if ! grep '#{pub_key.chomp}' /root/.ssh/authorized_keys; then
+                echo '#{pub_key}' >> /root/.ssh/authorized_keys;
               fi
             BASH
           else
             env[:machine].communicate.execute(<<-BASH)
-              if ! grep '#{pub_key.chomp!}' /home/#{user}/.ssh/authorized_keys; then
-                echo '#{pub_key.chomp!}' >> /home/#{user}/.ssh/authorized_keys;
+              if ! grep '#{pub_key.chomp}' /home/#{user}/.ssh/authorized_keys; then
+                echo '#{pub_key}' >> /home/#{user}/.ssh/authorized_keys;
               fi
 
               chown -R #{user} /home/#{user}/.ssh;
@@ -36,6 +38,7 @@ module VagrantPlugins
           raise Errors::PublicKeyError, :path => "#{private_key_path}.pub"
         end
       end
+      # rubocop:enable Metrics/AbcSize
     end
   end
 end
