@@ -41,14 +41,14 @@ module VagrantPlugins
         Commands::Root
       end
 
-      command(:rebuild) do
-        # Setup logging and i18n
-        Rimu.init_i18n
-        Rimu.init_logging
-        
-        require_relative "commands/rebuild"
-        Commands::Rebuild
-      end
+      # command(:rebuild) do
+      #   # Setup logging and i18n
+      #   Rimu.init_i18n
+      #   Rimu.init_logging
+      #
+      #   require_relative "commands/rebuild"
+      #   Commands::Rebuild
+      # end
     end
   end
 end
