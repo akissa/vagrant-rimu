@@ -20,6 +20,6 @@ group :development do
 end
 
 group :plugins do
-  gem 'bundler', '>= 1.5.2', '< 1.8.0'
+  gem 'bundler', '1.7.9'
   gem 'vagrant-rimu', :path => '.'
 end

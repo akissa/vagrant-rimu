@@ -13,41 +13,9 @@ addons:
 matrix:
   include:
     - gemfile: Gemfile
-      rvm: 2.2.1
+      rvm: 2.3.0
       env:
-        BUNDLER_VERSION='>= 1.5.2, < 1.8.0'
-    - gemfile: Gemfile
-      rvm: 2.1.4
-      env:
-        BUNDLER_VERSION='>= 1.5.2, < 1.8.0'
-    - gemfile: Gemfile
-      rvm: 2.0.0
-      env:
-        BUNDLER_VERSION='>= 1.5.2, < 1.8.0'
-    - gemfile: gemfiles/vagrant_1.6.gemfile
-      rvm: 2.2.1
-      env:
-        BUNDLER_VERSION='>= 1.5.2, < 1.7.0'
-    - gemfile: gemfiles/vagrant_1.6.gemfile
-      rvm: 2.1.4
-      env:
-        BUNDLER_VERSION='>= 1.5.2, < 1.7.0'
-    - gemfile: gemfiles/vagrant_1.6.gemfile
-      rvm: 2.0.0
-      env:
-        BUNDLER_VERSION='>= 1.5.2, < 1.7.0'
-    # - gemfile: gemfiles/vagrant_1.5.gemfile
-    #   rvm: 2.2.1
-    #   env:
-    #       BUNDLER_VERSION='= 1.5.2'
-    # - gemfile: gemfiles/vagrant_1.5.gemfile
-    #   rvm: 2.1.4
-    #   env:
-    #       BUNDLER_VERSION='= 1.5.2'
-    # - gemfile: gemfiles/vagrant_1.5.gemfile
-    #   rvm: 2.0.0
-    #   env:
-    #       BUNDLER_VERSION='= 1.5.2'
+        BUNDLER_VERSION='1.7.9'
 
 notifications:
   email:
