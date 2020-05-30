@@ -13,7 +13,7 @@ addons:
 matrix:
   include:
     - gemfile: Gemfile
-      rvm: 2.3.0
+      rvm: 2.6.5
       env:
         BUNDLER_VERSION='1.7.9'
 
