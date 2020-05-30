@@ -1,12 +1,9 @@
 language: ruby
-script: bundle exec rake
+script: bundle _1.7.9_ exec rake
 before_install:
-  - rvm @global do gem uninstall bundler --all --force --executables
-  - gem uninstall bundler --all --force --executables
   - gem install bundler -v "$BUNDLER_VERSION"
-# bundler_args: --without development
 install:
-  - travis_retry bundle install
+  - travis_retry bundle _1.7.9_ install
 addons:
     code_climate:
         repo_token: 3a5d0d815b7e9bc2c6b4608f74babd935d43fa564cd9041944dfd221f593a4db
